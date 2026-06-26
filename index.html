@@ -1,1 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JK-MGMT Pro Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&family=Dancing+Script&display=swap" rel="stylesheet">
+<style>
+    /* Premium Dark UI CSS */
+    :root { --bg: #0B0B0B; --card: #141414; --gold: #D4AF37; --border: #333; --text: #fff; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .btn { padding: 10px 15px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 12px; }
+    .btn-gold { background: var(--gold); color: #000; }
+    .btn-outline { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
+    .card { background: var(--card); border: 1px solid var(--border); padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+    .card h3 { color: var(--gold); margin-top: 0; font-size: 14px; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    input, textarea, select { width: 100%; background: #1a1a1a; border: 1px solid var(--border); color: #fff; padding: 10px; margin-bottom: 10px; border-radius: 4px; box-sizing: border-box; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    
+    /* Signature UI */
+    .sig-tabs { display: flex; gap: 5px; margin-bottom: 10px; }
+    .sig-tab { flex: 1; padding: 5px; text-align: center; background: #222; font-size: 11px; cursor: pointer; }
+    .sig-tab.active { background: var(--gold); color: #000; font-weight: bold; }
+    canvas { background: #fff; width: 100%; height: 150px; border-radius: 4px; cursor: crosshair; }
+    .img-preview { max-height: 80px; margin-top: 10px; border: 1px solid var(--border); display: none; }
+</style>
+</head>
+<body>
 
+<div class="header">
+    <h2 style="color:var(--gold); margin:0;">JK-MGMT Builder</h2>
+    <div>
+        <button class="btn btn-outline" onclick="saveToLocal()">💾 Save Draft</button>
+        <button class="btn btn-gold" onclick="generatePDF('http://localhost:3000/generate-pdf')" id="genBtn">🚀 Generate PDF</button>
+    </div>
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <h3>General & Assets</h3>
+        <input type="text" id="g-title" placeholder="Title" value="E-Commerce Growth Services">
+        <input type="text" id="g-ref" placeholder="Ref No" value="JK-MGMT-2026-005">
+        <input type="text" id="g-date" placeholder="Date" value="20/05/2026">
+        <input type="text" id="g-tagline" placeholder="Tagline" value="Built for growth">
+        <label style="font-size:11px; color:#888;">Upload Logo:</label>
+        <input type="file" id="logoUpload" accept="image/*" onchange="encodeImage(this, 'logoPrev')">
+        <img id="logoPrev" class="img-preview">
+        <label style="font-size:11px; color:#888;">Upload Stamp:</label>
+        <input type="file" id="stampUpload" accept="image/*" onchange="encodeImage(this, 'stampPrev')">
+        <img id="stampPrev" class="img-preview">
+    </div>
+
+    <div class="card">
+        <h3>Parties</h3>
+        <input type="text" id="f-name" placeholder="Your Name" value="Jenish Kamli">
+        <input type="text" id="f-role" placeholder="Your Role" value="Marketplace Specialist">
+        <input type="text" id="c-name" placeholder="Client Name">
+        <input type="text" id="c-company" placeholder="Client Company">
+    </div>
+</div>
+
+<div class="card">
+    <h3>Finance & Taxes</h3>
+    <div class="grid-2">
+        <input type="text" id="fin-curr" placeholder="Currency (₹)" value="₹">
+        <input type="number" id="fin-tax" placeholder="Tax %" value="0">
+    </div>
+</div>
+
+<div class="grid-2">
+    <div class="card">
+        <h3>Client Signature</h3>
+        <div class="sig-tabs">
+            <div class="sig-tab active" onclick="switchSig('c', 'draw')">Draw</div>
+            <div class="sig-tab" onclick="switchSig('c', 'type')">Type</div>
+            <div class="sig-tab" onclick="switchSig('c', 'upload')">Upload</div>
+        </div>
+        <div id="c-draw-panel"><canvas id="c-canvas"></canvas><button class="btn btn-outline" style="width:100%; margin-top:5px;" onclick="clearCanvas('c-canvas')">Clear</button></div>
+        <div id="c-type-panel" style="display:none;"><input type="text" id="c-type-val" placeholder="Type Name" style="font-family:'Dancing Script'; font-size:24px; text-align:center;"></div>
+        <div id="c-upload-panel" style="display:none;"><input type="file" accept="image/*" onchange="encodeImage(this, 'c-upl-prev')"><img id="c-upl-prev" class="img-preview"></div>
+    </div>
+
+    <div class="card">
+        <h3>Freelancer Signature</h3>
+        <div class="sig-tabs">
+            <div class="sig-tab active" onclick="switchSig('f', 'draw')">Draw</div>
+            <div class="sig-tab" onclick="switchSig('f', 'type')">Type</div>
+            <div class="sig-tab" onclick="switchSig('f', 'upload')">Upload</div>
+        </div>
+        <div id="f-draw-panel"><canvas id="f-canvas"></canvas><button class="btn btn-outline" style="width:100%; margin-top:5px;" onclick="clearCanvas('f-canvas')">Clear</button></div>
+        <div id="f-type-panel" style="display:none;"><input type="text" id="f-type-val" placeholder="Type Name" style="font-family:'Dancing Script'; font-size:24px; text-align:center;"></div>
+        <div id="f-upload-panel" style="display:none;"><input type="file" accept="image/*" onchange="encodeImage(this, 'f-upl-prev')"><img id="f-upl-prev" class="img-preview"></div>
+    </div>
+</div>
+
+<script>
+// Base64 Image Encoder
+function encodeImage(input, previewId) {
+    const file = input.files[0];
+    if(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = document.getElementById(previewId);
+            img.src = e.target.result;
+            img.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// Signature Switching Logic
+let sigStates = { c: 'draw', f: 'draw' };
+function switchSig(person, mode) {
+    sigStates[person] = mode;
+    ['draw', 'type', 'upload'].forEach(m => document.getElementById(`${person}-${m}-panel`).style.display = m === mode ? 'block' : 'none');
+}
+
+// Canvas Drawing Logic (Ultra Smooth)
+function initCanvas(id) {
+    const cvs = document.getElementById(id);
+    const ctx = cvs.getContext('2d');
+    cvs.width = cvs.offsetWidth || 300; cvs.height = 150;
+    ctx.fillStyle = '#FFF'; ctx.fillRect(0,0,cvs.width,cvs.height);
+    ctx.strokeStyle = '#000'; ctx.lineWidth = 2.5; ctx.lineCap = 'round';
+    
+    let isDrawing = false;
+    const getPos = e => { const r = cvs.getBoundingClientRect(); return e.touches ? {x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top} : {x: e.clientX - r.left, y: e.clientY - r.top}; };
+    
+    cvs.onmousedown = cvs.ontouchstart = (e) => { isDrawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); };
+    cvs.onmousemove = cvs.ontouchmove = (e) => { if(!isDrawing) return; e.preventDefault(); const p = getPos(e); requestAnimationFrame(()=> { ctx.lineTo(p.x, p.y); ctx.stroke(); }); };
+    window.onmouseup = window.ontouchend = () => isDrawing = false;
+}
+function clearCanvas(id) { const cvs = document.getElementById(id); cvs.getContext('2d').fillRect(0,0,cvs.width,cvs.height); }
+
+setTimeout(() => { initCanvas('c-canvas'); initCanvas('f-canvas'); }, 500);
+
+// Extract Signature Data based on active mode
+function getSignatureData(person) {
+    const mode = sigStates[person];
+    if(mode === 'draw') return document.getElementById(`${person}-canvas`).toDataURL('image/png');
+    if(mode === 'upload') return document.getElementById(`${person}-upl-prev`).src;
+    if(mode === 'type') {
+        const text = document.getElementById(`${person}-type-val`).value;
+        if(!text) return null;
+        const cvs = document.createElement('canvas'); cvs.width = 300; cvs.height = 100;
+        const ctx = cvs.getContext('2d');
+        ctx.fillStyle = '#fff'; ctx.fillRect(0,0,300,100);
+        ctx.font = '30px "Dancing Script"'; ctx.fillStyle = '#000'; ctx.textAlign = 'center'; ctx.fillText(text, 150, 60);
+        return cvs.toDataURL();
+    }
+    return null;
+}
+
+// Generate JSON & Send to Backend
+async function generatePDF(backendUrl) {
+    const btn = document.getElementById('genBtn');
+    btn.innerText = "⏳ Generating...";
+    
+    // Hardcoded demo sections (In your full code, connect this to dynamic inputs like previous version)
+    const payload = {
+        general: { title: document.getElementById('g-title').value, ref: document.getElementById('g-ref').value, date: document.getElementById('g-date').value, tagline: document.getElementById('g-tagline').value },
+        freelancer: { name: document.getElementById('f-name').value, role: document.getElementById('f-role').value, info: "India" },
+        client: { name: document.getElementById('c-name').value, company: document.getElementById('c-company').value, info: "Client Contact" },
+        finance: { currency: document.getElementById('fin-curr').value, tax: Number(document.getElementById('fin-tax').value), discount: 0 },
+        logo: document.getElementById('logoPrev').src.startsWith('data') ? document.getElementById('logoPrev').src : null,
+        stamp: document.getElementById('stampPrev').src.startsWith('data') ? document.getElementById('stampPrev').src : null,
+        signatures: { client: getSignatureData('c'), freelancer: getSignatureData('f') },
+        sections: [
+            { title: "Marketplace Services", rows: [{name: "Onboarding", desc: "Full setup", qty: 1, price: 1500}] }
+        ],
+        terms: [
+            { title: "Payment", details: "50% advance." }
+        ]
+    };
+
+    try {
+        const response = await fetch(backendUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        if(!response.ok) throw new Error("Server error");
+        
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = payload.general.ref + '.pdf';
+        a.click();
+    } catch(err) {
+        alert("Error connecting to backend! Ensure Render URL is correct.");
+    } finally {
+        btn.innerText = "🚀 Generate PDF";
+    }
+}
+</script>
+</body>
+</html>
