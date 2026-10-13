@@ -1,199 +1,727 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JK-MGMT Pro Builder</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&family=Dancing+Script&display=swap" rel="stylesheet">
-<style>
-    /* Premium Dark UI CSS */
-    :root { --bg: #0B0B0B; --card: #141414; --gold: #D4AF37; --border: #333; --text: #fff; }
-    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; }
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .btn { padding: 10px 15px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 12px; }
-    .btn-gold { background: var(--gold); color: #000; }
-    .btn-outline { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
-    .card { background: var(--card); border: 1px solid var(--border); padding: 15px; border-radius: 8px; margin-bottom: 15px; }
-    .card h3 { color: var(--gold); margin-top: 0; font-size: 14px; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-    input, textarea, select { width: 100%; background: #1a1a1a; border: 1px solid var(--border); color: #fff; padding: 10px; margin-bottom: 10px; border-radius: 4px; box-sizing: border-box; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OG Desk | 360° Brand Growth Agency</title>
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    /* Signature UI */
-    .sig-tabs { display: flex; gap: 5px; margin-bottom: 10px; }
-    .sig-tab { flex: 1; padding: 5px; text-align: center; background: #222; font-size: 11px; cursor: pointer; }
-    .sig-tab.active { background: var(--gold); color: #000; font-weight: bold; }
-    canvas { background: #fff; width: 100%; height: 150px; border-radius: 4px; cursor: crosshair; }
-    .img-preview { max-height: 80px; margin-top: 10px; border: 1px solid var(--border); display: none; }
-</style>
+    <style>
+        /* =========================================
+           CSS VARIABLES & BASE STYLES
+        ========================================= */
+        :root {
+            --bg-matte-black: #070709;
+            --text-pure-white: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            --neon-blue: #00f0ff;
+            --neon-purple: #9d4edd;
+            --neon-pink: #ff0054;
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-pure-white);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-matte-black);
+            overflow-x: hidden;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        /* Hide scrollbar for a cleaner look (optional) */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-matte-black); }
+        ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--glass-highlight); }
+
+        /* =========================================
+           LIQUID GLASS BACKGROUND EFFECTS (BLOBS)
+        ========================================= */
+        .background-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            background: var(--bg-matte-black);
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.4;
+            animation: moveBlobs 15s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .blob-1 {
+            top: -10%; left: -10%;
+            width: 50vw; height: 50vw;
+            background: var(--neon-purple);
+        }
+
+        .blob-2 {
+            bottom: -20%; right: -10%;
+            width: 60vw; height: 60vw;
+            background: var(--neon-blue);
+            animation-delay: 2s;
+            animation-duration: 18s;
+        }
+
+        .blob-3 {
+            top: 30%; left: 30%;
+            width: 40vw; height: 40vw;
+            background: var(--neon-pink);
+            opacity: 0.25;
+            animation-delay: 5s;
+            animation-duration: 20s;
+        }
+
+        @keyframes moveBlobs {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(10vw, 15vh) scale(1.2); }
+            100% { transform: translate(-10vw, -10vh) scale(0.9); }
+        }
+
+        /* =========================================
+           GLASSMORPHISM UTILITIES
+        ========================================= */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Reflection Effect inside glass */
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: 0.7s;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .glass-panel:hover::before {
+            left: 200%;
+        }
+
+        /* =========================================
+           NAVIGATION BAR
+        ========================================= */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 20px 5vw;
+            z-index: 1000;
+            transition: var(--transition-smooth);
+        }
+
+        header.scrolled {
+            padding: 15px 5vw;
+            background: rgba(7, 7, 9, 0.7);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--neon-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            position: relative;
+            padding: 5px 0;
+            transition: var(--transition-smooth);
+        }
+
+        /* Custom Underline Hover */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0%; height: 2px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            transition: var(--transition-smooth);
+        }
+
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
+
+        /* Mobile Menu Icon */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger div {
+            width: 30px; height: 3px;
+            background-color: var(--text-pure-white);
+            margin: 6px 0;
+            border-radius: 3px;
+            transition: var(--transition-smooth);
+        }
+
+        /* =========================================
+           HERO SECTION
+        ========================================= */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 5vw 50px;
+            text-align: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-container {
+            max-width: 900px;
+            padding: 60px 40px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-highlight);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 25px;
+        }
+
+        .text-gradient {
+            background: linear-gradient(90deg, var(--text-pure-white) 0%, rgba(255,255,255,0.6) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-neon {
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: gradientMove 5s linear infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-inline: auto;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            display: inline-block;
+            padding: 16px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.4);
+            transition: var(--transition-smooth);
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 240, 255, 0.5);
+        }
+
+        /* =========================================
+           SERVICES SECTION
+        ========================================= */
+        .services {
+            padding: 100px 5vw;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            padding: 40px 30px;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border-top: 1px solid rgba(255,255,255,0.15); /* Top light highlight */
+            border-left: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--neon-blue);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 240, 255, 0.1);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            width: 70px; height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 10px;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .service-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Specific Icon Colors for visual pop */
+        .c-1 .service-icon { text-shadow: 0 0 15px var(--neon-pink); }
+        .c-2 .service-icon { text-shadow: 0 0 15px var(--neon-blue); }
+        .c-3 .service-icon { text-shadow: 0 0 15px #ffd700; }
+        .c-4 .service-icon { text-shadow: 0 0 15px #ff9900; }
+        .c-5 .service-icon { text-shadow: 0 0 15px var(--neon-purple); }
+        .c-6 .service-icon { text-shadow: 0 0 15px #00ff88; }
+        .c-7 .service-icon { text-shadow: 0 0 15px #ff3366; }
+
+        /* =========================================
+           CTA / CONTACT SECTION
+        ========================================= */
+        .cta-section {
+            padding: 100px 5vw;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .cta-box {
+            padding: 60px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(157,78,221,0.1) 100%);
+        }
+
+        .cta-box h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-box p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+        }
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+        footer {
+            border-top: 1px solid var(--glass-border);
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(20px);
+            padding: 60px 5vw 30px;
+            margin-top: 50px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 50px;
+            max-width: 1400px;
+            margin: 0 auto 50px;
+        }
+
+        .footer-brand h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 300px;
+        }
+
+        .footer-links h4 {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: var(--text-pure-white);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links ul li a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.6);
+            transition: var(--transition-smooth);
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--neon-blue);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
+        }
+
+        /* =========================================
+           SCROLL ANIMATION CLASSES (Handled by JS)
+        ========================================= */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================================
+           RESPONSIVE DESIGN (MOBILE)
+        ========================================= */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 3rem; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            /* Mobile Navbar */
+            .nav-links {
+                position: absolute;
+                top: 100%; left: 0;
+                width: 100%;
+                background: rgba(7, 7, 9, 0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                align-items: center;
+                padding: 40px 0;
+                gap: 30px;
+                transform: translateY(-150%);
+                opacity: 0;
+                transition: var(--transition-smooth);
+                border-bottom: 1px solid var(--glass-border);
+                z-index: -1;
+            }
+
+            .nav-links.nav-active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            .hamburger { display: block; }
+
+            /* Hamburger Animation */
+            .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+            .toggle .line2 { opacity: 0; }
+            .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+
+            /* Mobile Adjustments */
+            .hero h1 { font-size: 2.2rem; }
+            .hero p { font-size: 1rem; }
+            .hero-container { padding: 40px 20px; }
+            
+            .section-header h2 { font-size: 2.2rem; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            .cta-box { padding: 40px 20px; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="header">
-    <h2 style="color:var(--gold); margin:0;">JK-MGMT Builder</h2>
-    <div>
-        <button class="btn btn-outline" onclick="saveToLocal()">💾 Save Draft</button>
-        <button class="btn btn-gold" onclick="generatePDF('http://localhost:3000/generate-pdf')" id="genBtn">🚀 Generate PDF</button>
-    </div>
-</div>
-
-<div class="grid-2">
-    <div class="card">
-        <h3>General & Assets</h3>
-        <input type="text" id="g-title" placeholder="Title" value="E-Commerce Growth Services">
-        <input type="text" id="g-ref" placeholder="Ref No" value="JK-MGMT-2026-005">
-        <input type="text" id="g-date" placeholder="Date" value="20/05/2026">
-        <input type="text" id="g-tagline" placeholder="Tagline" value="Built for growth">
-        <label style="font-size:11px; color:#888;">Upload Logo:</label>
-        <input type="file" id="logoUpload" accept="image/*" onchange="encodeImage(this, 'logoPrev')">
-        <img id="logoPrev" class="img-preview">
-        <label style="font-size:11px; color:#888;">Upload Stamp:</label>
-        <input type="file" id="stampUpload" accept="image/*" onchange="encodeImage(this, 'stampPrev')">
-        <img id="stampPrev" class="img-preview">
+    <!-- Liquid Glass Blobs Background -->
+    <div class="background-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
     </div>
 
-    <div class="card">
-        <h3>Parties</h3>
-        <input type="text" id="f-name" placeholder="Your Name" value="Jenish Kamli">
-        <input type="text" id="f-role" placeholder="Your Role" value="Marketplace Specialist">
-        <input type="text" id="c-name" placeholder="Client Name">
-        <input type="text" id="c-company" placeholder="Client Company">
-    </div>
-</div>
+    <!-- Header Navigation -->
+    <header id="header">
+        <nav>
+            <div class="logo">OG <span>Desk</span></div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
 
-<div class="card">
-    <h3>Finance & Taxes</h3>
-    <div class="grid-2">
-        <input type="text" id="fin-curr" placeholder="Currency (₹)" value="₹">
-        <input type="number" id="fin-tax" placeholder="Tax %" value="0">
-    </div>
-</div>
-
-<div class="grid-2">
-    <div class="card">
-        <h3>Client Signature</h3>
-        <div class="sig-tabs">
-            <div class="sig-tab active" onclick="switchSig('c', 'draw')">Draw</div>
-            <div class="sig-tab" onclick="switchSig('c', 'type')">Type</div>
-            <div class="sig-tab" onclick="switchSig('c', 'upload')">Upload</div>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container glass-panel">
+            <span class="hero-tag">Welcome to the future of brands</span>
+            <h1 class="text-gradient">Scale Your Brand From <br> <span class="text-neon">Scratch To Success</span></h1>
+            <p>We are a 360° digital agency providing everything your brand needs—from legal licensing, professional branding, e-commerce management, to high-performance marketing.</p>
+            <a href="#contact" class="btn-primary">Book a Free Consultation</a>
         </div>
-        <div id="c-draw-panel"><canvas id="c-canvas"></canvas><button class="btn btn-outline" style="width:100%; margin-top:5px;" onclick="clearCanvas('c-canvas')">Clear</button></div>
-        <div id="c-type-panel" style="display:none;"><input type="text" id="c-type-val" placeholder="Type Name" style="font-family:'Dancing Script'; font-size:24px; text-align:center;"></div>
-        <div id="c-upload-panel" style="display:none;"><input type="file" accept="image/*" onchange="encodeImage(this, 'c-upl-prev')"><img id="c-upl-prev" class="img-preview"></div>
-    </div>
+    </section>
 
-    <div class="card">
-        <h3>Freelancer Signature</h3>
-        <div class="sig-tabs">
-            <div class="sig-tab active" onclick="switchSig('f', 'draw')">Draw</div>
-            <div class="sig-tab" onclick="switchSig('f', 'type')">Type</div>
-            <div class="sig-tab" onclick="switchSig('f', 'upload')">Upload</div>
+    <!-- 360 Degree Services Section -->
+    <section id="services" class="services">
+        <div class="section-header reveal">
+            <h2>Our Core <span class="text-neon">Services</span></h2>
+            <p>End-to-end solutions designed to build, launch, and scale your brand globally.</p>
         </div>
-        <div id="f-draw-panel"><canvas id="f-canvas"></canvas><button class="btn btn-outline" style="width:100%; margin-top:5px;" onclick="clearCanvas('f-canvas')">Clear</button></div>
-        <div id="f-type-panel" style="display:none;"><input type="text" id="f-type-val" placeholder="Type Name" style="font-family:'Dancing Script'; font-size:24px; text-align:center;"></div>
-        <div id="f-upload-panel" style="display:none;"><input type="file" accept="image/*" onchange="encodeImage(this, 'f-upl-prev')"><img id="f-upl-prev" class="img-preview"></div>
-    </div>
-</div>
 
-<script>
-// Base64 Image Encoder
-function encodeImage(input, previewId) {
-    const file = input.files[0];
-    if(file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const img = document.getElementById(previewId);
-            img.src = e.target.result;
-            img.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-    }
-}
+        <div class="services-grid">
+            <!-- Service 1 -->
+            <div class="service-card glass-panel reveal c-1">
+                <div class="service-icon">🎨</div>
+                <h3>Graphic Design & Branding</h3>
+                <p>Complete branding solutions including logo design, packaging, professional video editing, and all-around graphic design to give your brand a unique visual identity.</p>
+            </div>
 
-// Signature Switching Logic
-let sigStates = { c: 'draw', f: 'draw' };
-function switchSig(person, mode) {
-    sigStates[person] = mode;
-    ['draw', 'type', 'upload'].forEach(m => document.getElementById(`${person}-${m}-panel`).style.display = m === mode ? 'block' : 'none');
-}
+            <!-- Service 2 -->
+            <div class="service-card glass-panel reveal c-2">
+                <div class="service-icon">📸</div>
+                <h3>Product Photo & Video Shoot</h3>
+                <p>High-end, professional product photography and video shoots. We create compelling visual assets that make your products stand out and convert viewers into buyers.</p>
+            </div>
 
-// Canvas Drawing Logic (Ultra Smooth)
-function initCanvas(id) {
-    const cvs = document.getElementById(id);
-    const ctx = cvs.getContext('2d');
-    cvs.width = cvs.offsetWidth || 300; cvs.height = 150;
-    ctx.fillStyle = '#FFF'; ctx.fillRect(0,0,cvs.width,cvs.height);
-    ctx.strokeStyle = '#000'; ctx.lineWidth = 2.5; ctx.lineCap = 'round';
-    
-    let isDrawing = false;
-    const getPos = e => { const r = cvs.getBoundingClientRect(); return e.touches ? {x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top} : {x: e.clientX - r.left, y: e.clientY - r.top}; };
-    
-    cvs.onmousedown = cvs.ontouchstart = (e) => { isDrawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); };
-    cvs.onmousemove = cvs.ontouchmove = (e) => { if(!isDrawing) return; e.preventDefault(); const p = getPos(e); requestAnimationFrame(()=> { ctx.lineTo(p.x, p.y); ctx.stroke(); }); };
-    window.onmouseup = window.ontouchend = () => isDrawing = false;
-}
-function clearCanvas(id) { const cvs = document.getElementById(id); cvs.getContext('2d').fillRect(0,0,cvs.width,cvs.height); }
+            <!-- Service 3 -->
+            <div class="service-card glass-panel reveal c-3">
+                <div class="service-icon">📜</div>
+                <h3>Licensing & Registrations</h3>
+                <p>Hassle-free legal compliance. We handle Trademark registration, FSSAI licenses, GST registration, and all other necessary paperwork so you can focus on business.</p>
+            </div>
 
-setTimeout(() => { initCanvas('c-canvas'); initCanvas('f-canvas'); }, 500);
+            <!-- Service 4 -->
+            <div class="service-card glass-panel reveal c-4">
+                <div class="service-icon">🛒</div>
+                <h3>E-Commerce & Quick Commerce</h3>
+                <p>End-to-end management from initial onboarding to daily operations. We optimize your presence on platforms like Amazon, Flipkart, Blinkit, and Zepto.</p>
+            </div>
 
-// Extract Signature Data based on active mode
-function getSignatureData(person) {
-    const mode = sigStates[person];
-    if(mode === 'draw') return document.getElementById(`${person}-canvas`).toDataURL('image/png');
-    if(mode === 'upload') return document.getElementById(`${person}-upl-prev`).src;
-    if(mode === 'type') {
-        const text = document.getElementById(`${person}-type-val`).value;
-        if(!text) return null;
-        const cvs = document.createElement('canvas'); cvs.width = 300; cvs.height = 100;
-        const ctx = cvs.getContext('2d');
-        ctx.fillStyle = '#fff'; ctx.fillRect(0,0,300,100);
-        ctx.font = '30px "Dancing Script"'; ctx.fillStyle = '#000'; ctx.textAlign = 'center'; ctx.fillText(text, 150, 60);
-        return cvs.toDataURL();
-    }
-    return null;
-}
+            <!-- Service 5 -->
+            <div class="service-card glass-panel reveal c-5">
+                <div class="service-icon">📱</div>
+                <h3>Social Media Management</h3>
+                <p>Strategic content creation, consistent posting schedules, and community management across Instagram, Facebook, LinkedIn, and more to build organic growth.</p>
+            </div>
 
-// Generate JSON & Send to Backend
-async function generatePDF(backendUrl) {
-    const btn = document.getElementById('genBtn');
-    btn.innerText = "⏳ Generating...";
-    
-    // Hardcoded demo sections (In your full code, connect this to dynamic inputs like previous version)
-    const payload = {
-        general: { title: document.getElementById('g-title').value, ref: document.getElementById('g-ref').value, date: document.getElementById('g-date').value, tagline: document.getElementById('g-tagline').value },
-        freelancer: { name: document.getElementById('f-name').value, role: document.getElementById('f-role').value, info: "India" },
-        client: { name: document.getElementById('c-name').value, company: document.getElementById('c-company').value, info: "Client Contact" },
-        finance: { currency: document.getElementById('fin-curr').value, tax: Number(document.getElementById('fin-tax').value), discount: 0 },
-        logo: document.getElementById('logoPrev').src.startsWith('data') ? document.getElementById('logoPrev').src : null,
-        stamp: document.getElementById('stampPrev').src.startsWith('data') ? document.getElementById('stampPrev').src : null,
-        signatures: { client: getSignatureData('c'), freelancer: getSignatureData('f') },
-        sections: [
-            { title: "Marketplace Services", rows: [{name: "Onboarding", desc: "Full setup", qty: 1, price: 1500}] }
-        ],
-        terms: [
-            { title: "Payment", details: "50% advance." }
-        ]
-    };
+            <!-- Service 6 -->
+            <div class="service-card glass-panel reveal c-6">
+                <div class="service-icon">💻</div>
+                <h3>Web Dev & UI/UX Design</h3>
+                <p>Custom website development and stunning UI/UX design. We build fast, responsive, and conversion-optimized websites tailored specifically for your target audience.</p>
+            </div>
 
-    try {
-        const response = await fetch(backendUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+            <!-- Service 7 -->
+            <div class="service-card glass-panel reveal c-7">
+                <div class="service-icon">🚀</div>
+                <h3>Performance Marketing</h3>
+                <p>Data-driven paid advertising to scale your D2C brand. We manage high-converting ad campaigns across Meta (Facebook/IG), Google Ads, and TikTok.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call To Action Section -->
+    <section class="cta-section reveal" id="about">
+        <div class="cta-box glass-panel">
+            <h2>Ready to dominate the market?</h2>
+            <p>Stop juggling multiple freelancers. Partner with OG Desk for a unified, powerful brand presence.</p>
+            <a href="#contact" class="btn-primary">Let's Discuss Your Project</a>
+        </div>
+    </section>
+
+    <!-- Footer & Legal Links -->
+    <footer id="contact">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>OG <span>Desk</span></h3>
+                <p>Your 360° growth partner. We build, manage, and scale brands for the modern digital era.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Our Services</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="mailto:contact@ogdesk.com">Contact Support</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Legal & Policies</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Refund & Cancellation Policy</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 OG Desk. All Rights Reserved. Designed & Developed exclusively for growth.</p>
+        </div>
+    </footer>
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================= -->
+    <script>
+        // 1. Mobile Hamburger Menu Logic
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const links = document.querySelectorAll('.nav-links li');
+
+        hamburger.addEventListener('click', () => {
+            // Toggle Nav
+            navLinks.classList.toggle('nav-active');
+            
+            // Burger Animation
+            hamburger.classList.toggle('toggle');
         });
-        
-        if(!response.ok) throw new Error("Server error");
-        
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url; a.download = payload.general.ref + '.pdf';
-        a.click();
-    } catch(err) {
-        alert("Error connecting to backend! Ensure Render URL is correct.");
-    } finally {
-        btn.innerText = "🚀 Generate PDF";
-    }
-}
-</script>
+
+        // Close mobile menu when a link is clicked
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('nav-active');
+                hamburger.classList.remove('toggle');
+            });
+        });
+
+        // 2. Sticky Navbar Effect on Scroll
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // 3. Scroll Reveal Animation Logic (Intersection Observer)
+        const reveals = document.querySelectorAll('.reveal');
+
+        const revealOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.classList.add('active');
+                    // Stop observing once revealed
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, revealOptions);
+
+        reveals.forEach(reveal => {
+            revealOnScroll.observe(reveal);
+        });
+    </script>
 </body>
 </html>
