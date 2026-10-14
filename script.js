@@ -1,15 +1,13 @@
 /* ==========================================================================
-   OG DESK - COMMERCIAL INTERACTIONS & 3D LOGIC
+   OG DESK - COMMERCIAL INTERACTIONS & 3D LOGIC (MOBILE OPTIMIZED)
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
     
     // --- 1. Preloader Logic ---
-    // Wait for the window to fully load (including all assets like images & 3D library)
     window.addEventListener('load', () => {
         const preloader = document.getElementById('preloader');
         if (preloader) {
-            // Set a slight timeout to let the progress bar animation finish
             setTimeout(() => {
                 preloader.style.opacity = '0';
                 preloader.style.visibility = 'hidden';
@@ -17,18 +15,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // --- 2. Custom Cursor Logic ---
+    // --- 2. Custom Cursor Logic (Only for Desktop) ---
     const cursorDot = document.querySelector('.cursor-dot');
     const cursorRing = document.querySelector('.cursor-ring');
     
-    // Only activate custom cursor if it's a desktop device (pointer: fine)
     if (window.matchMedia("(pointer: fine)").matches) {
         document.addEventListener('mousemove', (e) => {
             if(cursorDot && cursorRing) {
                 cursorDot.style.left = e.clientX + 'px';
                 cursorDot.style.top = e.clientY + 'px';
                 
-                // Add a slight delay (50ms) to the ring for a smooth trailing effect
                 setTimeout(() => {
                     cursorRing.style.left = e.clientX + 'px';
                     cursorRing.style.top = e.clientY + 'px';
@@ -36,8 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Hover effects for interactive elements (Links, Buttons, Bento Boxes)
-        const interactives = document.querySelectorAll('a, button, .bento-box, input, textarea');
+        const interactives = document.querySelectorAll('a, button, .bento-box, input, textarea, select');
         interactives.forEach(el => {
             el.addEventListener('mouseenter', () => {
                 if(cursorRing) {
@@ -77,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // --- 5. Mobile Menu Toggle ---
+    // --- 5. Mobile Menu Toggle (Hamburger) ---
     const hamburger = document.querySelector('.hamburger-menu');
     const mobileMenu = document.querySelector('.mobile-menu');
     
@@ -85,12 +80,11 @@ document.addEventListener("DOMContentLoaded", () => {
         hamburger.addEventListener('click', () => {
             mobileMenu.classList.toggle('active');
             
-            // Animate Hamburger into 'X'
             const bars = hamburger.querySelectorAll('.bar');
             if (mobileMenu.classList.contains('active')) {
-                bars[0].style.transform = 'translateY(8px) rotate(45deg)';
+                bars[0].style.transform = 'translateY(9px) rotate(45deg)';
                 bars[1].style.opacity = '0';
-                bars[2].style.transform = 'translateY(-8px) rotate(-45deg)';
+                bars[2].style.transform = 'translateY(-9px) rotate(-45deg)';
             } else {
                 bars[0].style.transform = 'none';
                 bars[1].style.opacity = '1';
@@ -98,7 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Close menu when clicking any mobile link
         const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
@@ -111,10 +104,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- 6. Scroll Reveal Animations (Intersection Observer) ---
+    // --- 6. Scroll Reveal Animations ---
     const reveals = document.querySelectorAll('.reveal');
     const revealOptions = {
-        threshold: 0.15, // Trigger when 15% of element is visible
+        threshold: 0.15,
         rootMargin: "0px 0px -50px 0px"
     };
     
@@ -122,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                observer.unobserve(entry.target); // Unobserve to animate only once
+                observer.unobserve(entry.target);
             }
         });
     }, revealOptions);
@@ -132,56 +125,49 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // --- 7. Bento Box Hover "Flashlight" Effect ---
-    // Tracks mouse position inside the bento box and updates CSS variables
     const bentoBoxes = document.querySelectorAll('.bento-box');
     bentoBoxes.forEach(box => {
         box.addEventListener('mousemove', (e) => {
             const rect = box.getBoundingClientRect();
-            // Calculate mouse position relative to the box in percentages
             const x = ((e.clientX - rect.left) / rect.width) * 100;
             const y = ((e.clientY - rect.top) / rect.height) * 100;
-            
-            // Pass values to CSS for the radial gradient glow
             box.style.setProperty('--mouse-x', `${x}%`);
             box.style.setProperty('--mouse-y', `${y}%`);
         });
     });
 
-    // --- 8. Three.js: Premium Liquid Glass 3D Sphere ---
+    // --- 8. Three.js: Premium Liquid Glass 3D Sphere (For Desktop/Tablet only) ---
     const canvasContainer = document.getElementById('hero-3d-canvas');
-    if (canvasContainer && typeof THREE !== 'undefined') {
+    // We only render 3D on wider screens to save mobile battery & performance
+    if (canvasContainer && typeof THREE !== 'undefined' && window.innerWidth > 768) {
         const scene = new THREE.Scene();
-        // Alpha: true ensures background is transparent
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         
         const camera = new THREE.PerspectiveCamera(45, canvasContainer.clientWidth / canvasContainer.clientHeight, 0.1, 1000);
         renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
-        renderer.setPixelRatio(window.devicePixelRatio); // Crisp rendering on high-DPI (Retina) screens
+        renderer.setPixelRatio(window.devicePixelRatio);
         canvasContainer.appendChild(renderer.domElement);
 
-        // Icosahedron gives a complex, faceted, tech-agency look
         const geometry = new THREE.IcosahedronGeometry(11, 2); 
         
-        // Physical Material gives the 'Glassmorphism' 3D effect
         const material = new THREE.MeshPhysicalMaterial({
             color: 0xffffff,
             metalness: 0.2,
             roughness: 0.1,
-            transmission: 0.95, // Glass effect
+            transmission: 0.95, 
             thickness: 1.5,
             transparent: true,
-            wireframe: true // Makes it look like a glowing digital blueprint
+            wireframe: true 
         });
         
         const mesh = new THREE.Mesh(geometry, material);
         scene.add(mesh);
 
-        // Neon Lighting setup to reflect our brand colors
-        const light1 = new THREE.PointLight(0x00f0ff, 3, 100); // Neon Blue
+        const light1 = new THREE.PointLight(0x00f0ff, 3, 100); 
         light1.position.set(20, 20, 20);
         scene.add(light1);
 
-        const light2 = new THREE.PointLight(0x9d4edd, 3, 100); // Neon Purple
+        const light2 = new THREE.PointLight(0x9d4edd, 3, 100); 
         light2.position.set(-20, -20, 20);
         scene.add(light2);
         
@@ -190,7 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         camera.position.z = 32;
 
-        // Mouse Parallax Effect Variables
         let mouseX = 0;
         let mouseY = 0;
         let targetX = 0;
@@ -209,17 +194,14 @@ document.addEventListener("DOMContentLoaded", () => {
             requestAnimationFrame(animate);
             const elapsedTime = clock.getElapsedTime();
 
-            // Parallax tracking (smoothly follow cursor)
             targetX = mouseX * 0.001;
             targetY = mouseY * 0.001;
             mesh.rotation.y += 0.05 * (targetX - mesh.rotation.y);
             mesh.rotation.x += 0.05 * (targetY - mesh.rotation.x);
             
-            // Continuous baseline rotation
             mesh.rotation.z += 0.002;
             mesh.rotation.y += 0.004;
 
-            // Liquid breathing (scaling up and down smoothly)
             const scale = 1 + Math.sin(elapsedTime * 1.2) * 0.04;
             mesh.scale.set(scale, scale, scale);
 
@@ -227,11 +209,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         animate();
 
-        // Responsive handling if browser window resizes
         window.addEventListener('resize', () => {
-            camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+            if (canvasContainer.clientWidth > 0) {
+                camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+            }
         });
     }
 });
