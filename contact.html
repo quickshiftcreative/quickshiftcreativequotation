@@ -2,51 +2,234 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Studio | OG Desk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- Commercial SEO Meta Tags for Contact Page -->
+    <title>Contact Us | OG Desk - Let's Scale Your Brand</title>
+    <meta name="description" content="Ready to scale? Contact OG Desk for a free strategy call. We specialize in E-commerce growth, Performance Ads, Licensing, and Web Development.">
+    <meta name="keywords" content="contact OG Desk, hire digital agency, e-commerce consultants, brand growth strategy">
+    <meta name="author" content="OG Desk">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph for Social Media -->
+    <meta property="og:title" content="Contact OG Desk">
+    <meta property="og:description" content="Book a free consultation and let's build your brand ecosystem today.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ogdesk.com/contact.html">
+
+    <!-- Preconnect for Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Linking to our Liquid Glass Stylesheet -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- JSON-LD Schema Markup for Contact Page -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "name": "Contact OG Desk",
+      "url": "https://ogdesk.com/contact.html",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "OG Desk",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer service",
+          "email": "hello@ogdesk.com"
+        }
+      }
+    }
+    </script>
 </head>
-<body>
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
+<body class="liquid-theme">
 
-    <div class="bg-blobs">
-        <div class="blob blob-2" style="background: var(--neon-purple);"></div>
+    <!-- 1. Preloader Screen -->
+    <div id="preloader" class="glass-preloader">
+        <div class="loader-content">
+            <h1 class="loader-logo">OG <span>Desk</span></h1>
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
+            </div>
+            <p>Establishing Connection...</p>
+        </div>
     </div>
 
-    <nav>
-        <div class="logo">OG Desk.</div>
-        <ul class="nav-links">
-            <li><a href="index.html">Work</a></li>
-            <li><a href="services.html">Expertise</a></li>
-            <li><a href="contact.html">Studio</a></li>
-        </ul>
-        <a href="contact.html" class="btn-nav">Start Project</a>
-    </nav>
+    <!-- 2. Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
 
-    <div class="page-header">
-        <h1>LET'S BUILD.</h1>
-        <p style="opacity: 0.7; font-size: 1.2rem; margin-top: 20px;">Ready to scale? Drop us a line.</p>
+    <!-- 3. Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- 4. Liquid Background Blobs -->
+    <div class="liquid-background">
+        <div class="blob blob-secondary" style="top: 0%; right: 0%;"></div>
+        <div class="blob blob-primary" style="bottom: -10%; left: 10%;"></div>
+        <div class="noise-overlay"></div> 
+    </div>
+
+    <!-- 5. Glassmorphism Navigation Bar -->
+    <header class="glass-header">
+        <div class="nav-container">
+            <a href="index.html" class="brand-logo">OG <span class="gradient-text">Desk.</span></a>
+            <nav class="desktop-nav">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Our Services</a></li>
+                    <li><a href="index.html#about">The Agency</a></li>
+                    <li><a href="contact.html" class="active">Contact Us</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="contact.html" class="glass-btn primary-btn">Book Consultation</a>
+                <!-- Hamburger Menu for Mobile -->
+                <button class="hamburger-menu" aria-label="Toggle Navigation">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
         
-        <form class="contact-form">
-            <input type="text" placeholder="Your Name / Brand Name" required>
-            <input type="email" placeholder="Work Email" required>
-            <select required>
-                <option value="" disabled selected>Select a Service...</option>
-                <option>Performance Marketing</option>
-                <option>E-Commerce Management</option>
-                <option>Licensing & Legal</option>
-                <option>Complete 360° Package</option>
-            </select>
-            <textarea rows="5" placeholder="Tell us about your project..." required></textarea>
-            <button type="submit" class="btn-submit">Submit Inquiry</button>
-        </form>
-    </div>
+        <!-- Mobile Dropdown Menu -->
+        <div class="mobile-menu glass-card">
+            <ul class="mobile-nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Our Services</a></li>
+                <li><a href="index.html#about">The Agency</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </div>
+    </header>
 
-    <footer>
-        <h2>OG Desk.</h2>
-        <p>&copy; 2026. All Rights Reserved.</p>
+    <main>
+        <!-- 6. Contact Section -->
+        <section class="container" style="padding-top: 180px; min-height: 80vh;">
+            <div class="about-grid" style="grid-template-columns: 1fr 1.5fr; gap: 60px; align-items: flex-start;">
+                
+                <!-- Contact Info (Left Side) -->
+                <div class="contact-info reveal">
+                    <h1 style="font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px;">Let's <span class="gradient-text">Build.</span></h1>
+                    <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 40px;">Ready to scale your brand? Drop us a line. We typically respond within 2-4 hours to set up your free discovery call.</p>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <h4 style="font-size: 1.2rem; margin-bottom: 10px; color: var(--neon-blue);">Email Us</h4>
+                        <a href="mailto:hello@ogdesk.com" style="font-size: 1.1rem; color: white; border-bottom: 1px solid var(--neon-purple); padding-bottom: 2px;">hello@ogdesk.com</a>
+                    </div>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <h4 style="font-size: 1.2rem; margin-bottom: 10px; color: var(--neon-blue);">Direct Line</h4>
+                        <a href="tel:+919876543210" style="font-size: 1.1rem; color: white;">+91 98765 43210</a>
+                    </div>
+
+                    <div style="margin-top: 50px;">
+                        <h4 style="font-size: 1.2rem; margin-bottom: 20px;">Follow Our Growth</h4>
+                        <div class="social-links">
+                            <a href="#" class="glass-icon" aria-label="Instagram">IG</a>
+                            <a href="#" class="glass-icon" aria-label="LinkedIn">IN</a>
+                            <a href="#" class="glass-icon" aria-label="Twitter">X</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Glassmorphism Contact Form (Right Side) -->
+                <div class="glass-card reveal" style="padding: 50px;">
+                    <form action="#" method="POST" class="contact-form" style="display: flex; flex-direction: column; gap: 25px;">
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+                            <div>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-secondary);">Full Name</label>
+                                <input type="text" required class="glass-input" placeholder="e.g. Rahul Sharma" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-secondary);">Brand / Company Name</label>
+                                <input type="text" class="glass-input" placeholder="Your Brand" style="width: 100%;">
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+                            <div>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-secondary);">Work Email</label>
+                                <input type="email" required class="glass-input" placeholder="hello@brand.com" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-secondary);">Phone Number (Optional)</label>
+                                <input type="tel" class="glass-input" placeholder="+91" style="width: 100%;">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-secondary);">What do you need help with?</label>
+                            <select required class="glass-input" style="width: 100%; appearance: none; cursor: pointer; color: white;">
+                                <option value="" disabled selected style="background: var(--bg-matte-black);">Select a primary service...</option>
+                                <option value="360" style="background: var(--bg-matte-black);">Complete 360° Management</option>
+                                <option value="ecom" style="background: var(--bg-matte-black);">E-Commerce & Quick Commerce (Amazon/Zepto)</option>
+                                <option value="ads" style="background: var(--bg-matte-black);">Performance Marketing & Ads</option>
+                                <option value="legal" style="background: var(--bg-matte-black);">Legal Licensing (GST, FSSAI, Trademark)</option>
+                                <option value="design" style="background: var(--bg-matte-black);">Design, Branding & Product Shoots</option>
+                                <option value="web" style="background: var(--bg-matte-black);">Web Development (Shopify/Custom)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-secondary);">Project Details</label>
+                            <textarea required rows="5" class="glass-input" placeholder="Tell us about your current challenges and revenue goals..." style="width: 100%; resize: vertical;"></textarea>
+                        </div>
+
+                        <button type="submit" class="glass-btn primary-btn pulse-effect" style="padding: 18px; font-size: 1.1rem; width: 100%; margin-top: 10px;">Send Inquiry ➔</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 7. Advanced Commercial Footer -->
+    <footer class="glass-footer">
+        <div class="container" style="padding-top: 20px; padding-bottom: 20px;">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="brand-logo">OG <span class="gradient-text">Desk.</span></a>
+                    <p>Building, managing, and scaling global brands with liquid precision and data-driven execution.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Expertise</a></li>
+                        <li><a href="index.html#about">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-newsletter glass-card">
+                    <h4>Join Our Newsletter</h4>
+                    <p>Get exclusive D2C growth hacks every week.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" required class="glass-input">
+                        <button type="submit" class="glass-btn primary-btn">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 OG Desk Agency. All Rights Reserved. Crafted in India.</p>
+            </div>
+        </div>
     </footer>
-    <script src="script.js"></script>
+
+    <!-- Linking to our Interactivity Script -->
+    <script src="script.js" defer></script>
 </body>
 </html>
