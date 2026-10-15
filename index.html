@@ -18,7 +18,7 @@
     <!-- Linking to our Liquid Glass Stylesheet -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- ONLY NEED BASE THREE.JS (NO SPLINE, NO ORBITCONTROLS) -->
+    <!-- ONLY NEED BASE THREE.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <style>
@@ -36,30 +36,25 @@
             padding-bottom: 50px;
         }
 
-        /* MUST BE POSITION RELATIVE WITH DEFINED HEIGHT FOR CANVAS TO SHOW */
+        /* THE WRAPPER: Keeps the height and styling */
         .hero-3d-wrapper {
             width: 100%;
             height: 600px;
             position: relative;
             border-radius: 30px;
             background: radial-gradient(circle at center, rgba(0, 240, 255, 0.1) 0%, transparent 65%);
-            display: block; /* Ensure it's treated as a block for canvas sizing */
+            display: block; 
             overflow: hidden;
         }
 
+        /* THE CANVAS: Where the 3D character actually renders */
         #hero-3d-canvas {
             width: 100%;
             height: 100%;
-            display: block;
             position: absolute;
             top: 0;
             left: 0;
-            cursor: grab;
             z-index: 10;
-        }
-
-        #hero-3d-canvas:active {
-            cursor: grabbing;
         }
 
         /* Premium Glass Card for About Section */
@@ -130,7 +125,7 @@
             <div class="progress-bar-container">
                 <div class="progress-bar"></div>
             </div>
-            <p>Initializing...</p>
+            <p>Initializing System...</p>
         </div>
     </div>
 
@@ -158,7 +153,7 @@
                     <li><a href="index.html" class="active">Home</a></li>
                     <li><a href="services.html">Our Services</a></li>
                     <li><a href="#about">The Agency</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
                 </ul>
             </nav>
             <div class="nav-actions">
@@ -215,9 +210,9 @@
                     </div>
                 </div>
 
-                <!-- 3D WRAPPER: EXACT ID MATCHES SCRIPT.JS -->
-                <div class="hero-3d-wrapper reveal" id="hero-3d-canvas">
-                    <!-- Three.js will inject the <canvas> tag right here -->
+                <!-- FIXED 3D WRAPPER & CANVAS (Separated to fix height issue) -->
+                <div class="hero-3d-wrapper reveal">
+                    <div id="hero-3d-canvas"></div>
                 </div>
 
             </div>
@@ -397,7 +392,7 @@
         </div>
     </footer>
 
-    <!-- Interactive JavaScript -->
-    <script src="script.js" defer></script>
+    <!-- ADDED ?v=3 TO FORCE BROWSER TO LOAD NEW SCRIPT -->
+    <script src="script.js?v=3" defer></script>
 </body>
 </html>
