@@ -1,5 +1,5 @@
 /* ==========================================================================
-   OG DESK - COMMERCIAL INTERACTIONS & 3D AI CHARACTER LOGIC
+   OG DESK - COMMERCIAL INTERACTIONS & CRASH-PROOF 3D LOGIC
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
                 preloader.style.opacity = '0';
                 preloader.style.visibility = 'hidden';
-            }, 1500); 
+            }, 1000); 
         }
     });
 
@@ -19,14 +19,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const cursorDot = document.querySelector('.cursor-dot');
     const cursorRing = document.querySelector('.cursor-ring');
     
-    // Check if it's a desktop device with a mouse
     if (window.matchMedia("(pointer: fine)").matches) {
         document.addEventListener('mousemove', (e) => {
             if(cursorDot && cursorRing) {
                 cursorDot.style.left = e.clientX + 'px';
                 cursorDot.style.top = e.clientY + 'px';
                 
-                // Slight delay for the ring trailing effect
                 setTimeout(() => {
                     cursorRing.style.left = e.clientX + 'px';
                     cursorRing.style.top = e.clientY + 'px';
@@ -34,8 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Hover effects for all interactive elements
-        const interactives = document.querySelectorAll('a, button, .bento-box, input, textarea, select');
+        const interactives = document.querySelectorAll('a, button, .bento-box, input, textarea, select, #hero-3d-canvas');
         interactives.forEach(el => {
             el.addEventListener('mouseenter', () => {
                 if(cursorRing) {
@@ -82,8 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (hamburger && mobileMenu) {
         hamburger.addEventListener('click', () => {
             mobileMenu.classList.toggle('active');
-            
-            // Animate Hamburger into 'X'
             const bars = hamburger.querySelectorAll('.bar');
             if (mobileMenu.classList.contains('active')) {
                 bars[0].style.transform = 'translateY(9px) rotate(45deg)';
@@ -110,11 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- 6. Scroll Reveal Animations ---
     const reveals = document.querySelectorAll('.reveal');
-    const revealOptions = {
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px"
-    };
-    
+    const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
     const revealOnScroll = new IntersectionObserver(function(entries, observer) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -123,10 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }, revealOptions);
-    
-    reveals.forEach(reveal => {
-        revealOnScroll.observe(reveal);
-    });
+    reveals.forEach(reveal => { revealOnScroll.observe(reveal); });
 
     // --- 7. Bento Box Hover "Flashlight" Effect ---
     const bentoBoxes = document.querySelectorAll('.bento-box');
@@ -140,45 +128,30 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // --- 8. Three.js: Interactive 3D AI Robot / Core ---
+    // --- 8. Three.js: FOOL-PROOF CUSTOM 3D ROBOT CORE ---
     const canvasContainer = document.getElementById('hero-3d-canvas');
     
-    // Check if container exists and THREE is loaded
     if (canvasContainer && typeof THREE !== 'undefined') {
         
-        // 1. Scene Setup
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(45, canvasContainer.clientWidth / canvasContainer.clientHeight, 0.1, 1000);
-        camera.position.z = 40; // Zoom level
+        camera.position.z = 40; 
 
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
+        // Optimize for mobile screens
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
         canvasContainer.appendChild(renderer.domElement);
 
-        // 2. Add OrbitControls (Allows user to drag & rotate the 3D object)
-        let controls;
-        if (typeof THREE.OrbitControls !== 'undefined') {
-            controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true; // Smooth rotation
-            controls.dampingFactor = 0.05;
-            controls.enableZoom = false; // Disable scroll-zoom so page scrolling isn't blocked
-            controls.autoRotate = true; // Rotates automatically
-            controls.autoRotateSpeed = 2.0;
-        }
-
-        // 3. Create the 3D AI Character (A Complex Tech Core)
+        // Create the Main 3D Group
         const coreGroup = new THREE.Group();
         scene.add(coreGroup);
 
-        // Inner Glowing Core (Solid)
+        // Inner Glowing Core
         const innerGeo = new THREE.IcosahedronGeometry(6, 1);
         const innerMat = new THREE.MeshPhysicalMaterial({
             color: 0xff0054, // Neon Pink
-            metalness: 0.5,
-            roughness: 0.2,
-            transmission: 0.5, // Glassy
-            transparent: true
+            metalness: 0.5, roughness: 0.2, transmission: 0.5, transparent: true
         });
         const innerCore = new THREE.Mesh(innerGeo, innerMat);
         coreGroup.add(innerCore);
@@ -187,28 +160,25 @@ document.addEventListener("DOMContentLoaded", () => {
         const outerGeo = new THREE.IcosahedronGeometry(9, 2);
         const outerMat = new THREE.MeshBasicMaterial({
             color: 0x00f0ff, // Neon Blue
-            wireframe: true,
-            transparent: true,
-            opacity: 0.4
+            wireframe: true, transparent: true, opacity: 0.5
         });
         const outerShell = new THREE.Mesh(outerGeo, outerMat);
         coreGroup.add(outerShell);
 
-        // Orbiting Ring 1
+        // Orbiting Rings
         const ring1Geo = new THREE.TorusGeometry(14, 0.2, 16, 100);
         const ringMat = new THREE.MeshBasicMaterial({ color: 0x9d4edd }); // Neon Purple
         const ring1 = new THREE.Mesh(ring1Geo, ringMat);
         ring1.rotation.x = Math.PI / 2;
         coreGroup.add(ring1);
 
-        // Orbiting Ring 2
         const ring2Geo = new THREE.TorusGeometry(12, 0.1, 16, 100);
-        const ringMat2 = new THREE.MeshBasicMaterial({ color: 0xffffff }); // White
+        const ringMat2 = new THREE.MeshBasicMaterial({ color: 0xffffff });
         const ring2 = new THREE.Mesh(ring2Geo, ringMat2);
         ring2.rotation.y = Math.PI / 3;
         coreGroup.add(ring2);
 
-        // 4. Lighting
+        // Lighting
         const light1 = new THREE.PointLight(0x00f0ff, 3, 100); 
         light1.position.set(20, 20, 20);
         scene.add(light1);
@@ -220,23 +190,71 @@ document.addEventListener("DOMContentLoaded", () => {
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         scene.add(ambientLight);
 
-        // 5. Animation Loop
+        // === CUSTOM DRAG & ROTATE LOGIC (REPLACES EXTERNAL PLUGINS) ===
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+
+        // Mouse Events for Desktop
+        canvasContainer.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            previousMousePosition = { x: e.clientX, y: e.clientY };
+            canvasContainer.style.cursor = 'grabbing';
+        });
+        
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                let deltaMove = { x: e.clientX - previousMousePosition.x, y: e.clientY - previousMousePosition.y };
+                // Rotate the entire group based on mouse movement
+                coreGroup.rotation.y += deltaMove.x * 0.01;
+                coreGroup.rotation.x += deltaMove.y * 0.01;
+            }
+            previousMousePosition = { x: e.clientX, y: e.clientY };
+        });
+        
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+            canvasContainer.style.cursor = 'grab';
+        });
+
+        // Touch Events for Mobile Devices
+        canvasContainer.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }, { passive: true });
+
+        window.addEventListener('touchmove', (e) => {
+            if (isDragging) {
+                let deltaMove = { x: e.touches[0].clientX - previousMousePosition.x, y: e.touches[0].clientY - previousMousePosition.y };
+                coreGroup.rotation.y += deltaMove.x * 0.01;
+                coreGroup.rotation.x += deltaMove.y * 0.01;
+            }
+            previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }, { passive: true });
+
+        window.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        // Animation Loop
         const clock = new THREE.Clock();
 
         function animate() {
             requestAnimationFrame(animate);
             const elapsedTime = clock.getElapsedTime();
 
-            // Animate internal parts independently
+            // Auto-rotate slowly if user is NOT dragging
+            if (!isDragging) {
+                coreGroup.rotation.y += 0.005;
+                coreGroup.rotation.x += 0.002;
+            }
+
+            // Internal parts animation
             innerCore.rotation.x += 0.01;
             innerCore.rotation.y += 0.01;
-            
             outerShell.rotation.x -= 0.005;
             outerShell.rotation.y -= 0.005;
-
             ring1.rotation.x += 0.02;
             ring1.rotation.y += 0.01;
-            
             ring2.rotation.y -= 0.03;
             ring2.rotation.z += 0.01;
 
@@ -244,14 +262,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const scale = 1 + Math.sin(elapsedTime * 2) * 0.05;
             coreGroup.scale.set(scale, scale, scale);
 
-            // Update controls if user is dragging
-            if (controls) controls.update();
-
             renderer.render(scene, camera);
         }
         animate();
 
-        // 6. Responsive Window Resize
+        // Responsive Window Resize
         window.addEventListener('resize', () => {
             if (canvasContainer.clientWidth > 0) {
                 camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
