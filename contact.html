@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <!-- Commercial SEO Meta Tags -->
     <title>Contact Us | OG Desk - Let's Scale Your Brand</title>
     <meta name="description" content="Ready to scale? Contact OG Desk for a free strategy call. We specialize in E-commerce growth, Performance Ads, Licensing, and Web Development.">
 
@@ -18,6 +17,64 @@
 
     <!-- Linking to our Liquid Glass Stylesheet -->
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Spline 3D Viewer Script -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.15/build/spline-viewer.js"></script>
+
+    <style>
+        /* Mobile Specific Overrides for Contact Page */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .spline-container {
+            width: 100%;
+            height: 500px;
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            background: radial-gradient(circle at center, rgba(157,78,221,0.1) 0%, transparent 70%);
+        }
+        
+        spline-viewer {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 992px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .spline-container {
+                height: 350px;
+                order: -1; /* Puts the 3D element on top on mobile */
+                margin-bottom: 30px;
+            }
+            .contact-info-glass {
+                padding: 30px !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .spline-container {
+                height: 250px;
+            }
+            .contact-form-inputs {
+                grid-template-columns: 1fr !important;
+            }
+            .page-header-title {
+                font-size: 2.8rem !important;
+                text-align: center;
+            }
+            .page-header-desc {
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 <body class="liquid-theme">
 
@@ -41,8 +98,8 @@
 
     <!-- Liquid Background Blobs -->
     <div class="liquid-background">
-        <div class="blob blob-secondary" style="top: 0%; right: 0%;"></div>
-        <div class="blob blob-primary" style="bottom: -10%; left: 10%;"></div>
+        <div class="blob blob-secondary" style="top: -10%; right: 0%;"></div>
+        <div class="blob blob-primary" style="bottom: -10%; left: 0%;"></div>
         <div class="noise-overlay"></div> 
     </div>
 
@@ -82,50 +139,61 @@
 
     <main>
         <!-- Contact Section -->
-        <section class="container" style="padding-top: 180px; min-height: 80vh;">
-            <div class="about-grid" style="grid-template-columns: 1fr 1.5fr; gap: 60px; align-items: flex-start;">
+        <section class="container" style="padding-top: 150px; min-height: 80vh;">
+            
+            <!-- Page Header -->
+            <div style="margin-bottom: 50px;">
+                <div class="glass-badge reveal" style="display: table; margin: 0 auto 20px;">Let's Connect</div>
+                <h1 class="page-header-title reveal" style="font-size: 4rem; line-height: 1.1; margin-bottom: 20px; text-align: center;">Start Your <span class="colorful-text">Growth Journey.</span></h1>
+                <p class="page-header-desc reveal" style="color: var(--text-secondary); font-size: 1.2rem; max-width: 600px; margin: 0 auto; text-align: center;">Drop us a line. We typically respond within 2-4 hours to set up your free discovery call.</p>
+            </div>
+
+            <div class="contact-grid">
                 
-                <!-- Contact Info (Left Side) -->
-                <div class="contact-info reveal">
-                    <h1 style="font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px;">Let's <span class="colorful-text">Build.</span></h1>
-                    <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 40px;">Ready to scale your brand? Drop us a line. We typically respond within 2-4 hours to set up your free discovery call.</p>
-                    
-                    <div style="margin-bottom: 30px;">
-                        <h4 style="font-size: 1.2rem; margin-bottom: 10px; color: var(--neon-blue);"><i class="fa-solid fa-envelope" style="margin-right: 8px;"></i> Email Us</h4>
-                        <a href="mailto:hello@ogdesk.com" style="font-size: 1.1rem; color: white; border-bottom: 1px solid var(--neon-pink); padding-bottom: 2px;">hello@ogdesk.com</a>
-                    </div>
-                    
-                    <div style="margin-bottom: 30px;">
-                        <h4 style="font-size: 1.2rem; margin-bottom: 10px; color: var(--neon-blue);"><i class="fa-solid fa-phone" style="margin-right: 8px;"></i> Direct Line</h4>
-                        <a href="tel:+919876543210" style="font-size: 1.1rem; color: white;">+91 98765 43210</a>
+                <!-- Left Side: Interactive 3D Element & Contact Details -->
+                <div class="reveal">
+                    <!-- SPLINE 3D OBJECT (Interactive Tech Element) -->
+                    <div class="spline-container glass-card" style="margin-bottom: 30px; padding: 0;">
+                        <spline-viewer url="https://prod.spline.design/iM85iIqN-e40YwHl/scene.splinecode"></spline-viewer>
                     </div>
 
-                    <div style="margin-top: 50px;">
-                        <h4 style="font-size: 1.2rem; margin-bottom: 20px;">Follow Our Growth</h4>
-                        <div class="social-links" style="margin-top: 0;">
-                            <a href="#" class="glass-icon instagram-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                            <a href="#" class="glass-icon linkedin-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-                            <a href="#" class="glass-icon twitter-icon" aria-label="Twitter (X)"><i class="fa-brands fa-x-twitter"></i></a>
+                    <!-- Direct Contact Details -->
+                    <div class="glass-card" style="padding: 30px; display: flex; flex-direction: column; gap: 20px;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div class="icon-glass" style="width: 50px; height: 50px; margin-bottom: 0;"><i class="fa-solid fa-envelope" style="color: var(--neon-blue);"></i></div>
+                            <div>
+                                <h4 style="font-size: 1rem; color: var(--text-secondary); margin-bottom: 5px;">Email Us</h4>
+                                <a href="mailto:hello@ogdesk.com" style="font-size: 1.1rem; color: white; font-weight: 600;">hello@ogdesk.com</a>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div class="icon-glass" style="width: 50px; height: 50px; margin-bottom: 0;"><i class="fa-solid fa-location-dot" style="color: var(--neon-pink);"></i></div>
+                            <div>
+                                <h4 style="font-size: 1rem; color: var(--text-secondary); margin-bottom: 5px;">HQ Location</h4>
+                                <p style="font-size: 1.1rem; color: white; font-weight: 600;">Umargam, Gujarat</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Glassmorphism Contact Form (Right Side) -->
-                <div class="glass-card reveal" style="padding: 50px;">
+                <!-- Right Side: Glassmorphism Contact Form -->
+                <div class="glass-card contact-info-glass reveal" style="padding: 50px;">
+                    <h3 style="font-size: 2rem; margin-bottom: 30px;">Send an <span class="gradient-text">Inquiry</span></h3>
                     <form action="#" method="POST" class="contact-form" style="display: flex; flex-direction: column; gap: 25px;">
                         
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px;">
+                        <div class="contact-form-inputs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
                             <div>
                                 <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-secondary);">Full Name</label>
                                 <input type="text" required class="glass-input" placeholder="e.g. Rahul Sharma" style="width: 100%;">
                             </div>
                             <div>
-                                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-secondary);">Brand / Company Name</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-secondary);">Brand Name</label>
                                 <input type="text" class="glass-input" placeholder="Your Brand" style="width: 100%;">
                             </div>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px;">
+                        <div class="contact-form-inputs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
                             <div>
                                 <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-secondary);">Work Email</label>
                                 <input type="email" required class="glass-input" placeholder="hello@brand.com" style="width: 100%;">
@@ -138,24 +206,27 @@
 
                         <div>
                             <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-secondary);">What do you need help with?</label>
-                            <select required class="glass-input" style="width: 100%; appearance: none; cursor: pointer; color: white;">
-                                <option value="" disabled selected style="background: var(--bg-matte-black);">Select a primary service...</option>
-                                <option value="360" style="background: var(--bg-matte-black);">Complete 360° Management</option>
-                                <option value="ecom" style="background: var(--bg-matte-black);">E-Commerce & Quick Commerce (Amazon/Zepto)</option>
-                                <option value="ads" style="background: var(--bg-matte-black);">Performance Marketing & Ads</option>
-                                <option value="legal" style="background: var(--bg-matte-black);">Legal Licensing (GST, FSSAI, Trademark)</option>
-                                <option value="design" style="background: var(--bg-matte-black);">Design, Branding & Product Shoots</option>
-                                <option value="web" style="background: var(--bg-matte-black);">Web Development (Shopify/Custom)</option>
-                            </select>
+                            <div style="position: relative;">
+                                <select required class="glass-input" style="width: 100%; appearance: none; cursor: pointer; color: white;">
+                                    <option value="" disabled selected style="background: var(--bg-matte-black);">Select a primary service...</option>
+                                    <option value="360" style="background: var(--bg-matte-black);">Complete 360° Management</option>
+                                    <option value="ecom" style="background: var(--bg-matte-black);">E-Commerce & Quick Commerce</option>
+                                    <option value="ads" style="background: var(--bg-matte-black);">Performance Marketing & Ads</option>
+                                    <option value="legal" style="background: var(--bg-matte-black);">Legal Licensing (GST, FSSAI, TM)</option>
+                                    <option value="design" style="background: var(--bg-matte-black);">Design, Branding & Product Shoots</option>
+                                    <option value="web" style="background: var(--bg-matte-black);">Web Development (Shopify/Custom)</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--text-secondary);"></i>
+                            </div>
                         </div>
 
                         <div>
                             <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-secondary);">Project Details</label>
-                            <textarea required rows="5" class="glass-input" placeholder="Tell us about your current challenges and revenue goals..." style="width: 100%; resize: vertical;"></textarea>
+                            <textarea required rows="4" class="glass-input" placeholder="Tell us about your current challenges and revenue goals..." style="width: 100%; resize: vertical;"></textarea>
                         </div>
 
                         <!-- Colorful Animated Submit Button -->
-                        <button type="submit" class="glass-btn btn-neon-pink pulse-effect" style="padding: 18px; font-size: 1.1rem; width: 100%; margin-top: 10px;">Send Inquiry ➔</button>
+                        <button type="submit" class="glass-btn btn-neon-blue pulse-effect" style="padding: 18px; font-size: 1.1rem; width: 100%; margin-top: 10px;">Send Inquiry ➔</button>
                     </form>
                 </div>
             </div>
