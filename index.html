@@ -18,9 +18,8 @@
     <!-- Linking to our Liquid Glass Stylesheet -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- Three.js Libraries for the Interactive 3D Robot -->
+    <!-- ONLY NEED BASE THREE.JS (NO SPLINE, NO ORBITCONTROLS) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
     <style>
         /* =========================================================
@@ -37,27 +36,26 @@
             padding-bottom: 50px;
         }
 
-        /* The Box where our 3D Robot will live */
+        /* MUST BE POSITION RELATIVE WITH DEFINED HEIGHT FOR CANVAS TO SHOW */
         .hero-3d-wrapper {
             width: 100%;
             height: 600px;
             position: relative;
             border-radius: 30px;
             background: radial-gradient(circle at center, rgba(0, 240, 255, 0.1) 0%, transparent 65%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: block; /* Ensure it's treated as a block for canvas sizing */
             overflow: hidden;
         }
 
         #hero-3d-canvas {
             width: 100%;
             height: 100%;
+            display: block;
             position: absolute;
             top: 0;
             left: 0;
+            cursor: grab;
             z-index: 10;
-            cursor: grab; /* Shows user they can grab and rotate */
         }
 
         #hero-3d-canvas:active {
@@ -95,7 +93,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Mobile Optimization for Homepage Grid */
         @media (max-width: 992px) {
             .hero-grid {
                 grid-template-columns: 1fr;
@@ -104,7 +101,7 @@
             }
             .hero-3d-wrapper {
                 height: 450px;
-                order: -1; /* Puts the 3D character on top on mobile */
+                order: -1; 
             }
             .hero-cta-group, .trust-metrics {
                 justify-content: center;
@@ -125,6 +122,17 @@
     </style>
 </head>
 <body class="liquid-theme">
+
+    <!-- Preloader Screen -->
+    <div id="preloader" class="glass-preloader">
+        <div class="loader-content">
+            <h1 class="loader-logo">OG <span>Desk</span></h1>
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
+            </div>
+            <p>Initializing...</p>
+        </div>
+    </div>
 
     <!-- Custom Cursor -->
     <div class="cursor-dot"></div>
@@ -163,7 +171,6 @@
             </div>
         </div>
         
-        <!-- Mobile Dropdown Menu -->
         <div class="mobile-menu glass-card">
             <ul class="mobile-nav-links">
                 <li><a href="index.html">Home</a></li>
@@ -175,11 +182,10 @@
     </header>
 
     <main>
-        <!-- ULTRA PREMIUM HERO SECTION WITH 3D CHARACTER -->
+        <!-- HERO SECTION WITH CUSTOM 3D SCRIPT -->
         <section class="container" id="home" style="padding-top: 0; padding-bottom: 0;">
             <div class="hero-grid">
                 
-                <!-- Left: Text & Call to Actions -->
                 <div class="hero-content-wrapper reveal">
                     <div class="badge glass-badge" style="border-color: var(--neon-blue);">The Future of Digital Growth</div>
                     <h1 class="hero-title" style="font-size: 4.8rem; line-height: 1.1; margin-bottom: 25px; letter-spacing: -1.5px;">
@@ -193,7 +199,6 @@
                         <a href="services.html" class="glass-btn secondary-btn" style="font-size: 1.1rem; padding: 15px 35px;">Explore Expertise</a>
                     </div>
                     
-                    <!-- Trust Metrics -->
                     <div class="trust-metrics" style="display: flex; gap: 40px; border-top: 1px solid var(--glass-border); padding-top: 30px; flex-wrap: wrap;">
                         <div class="metric">
                             <h3 style="font-size: 2.2rem; color: var(--neon-pink);">50+</h3>
@@ -210,10 +215,9 @@
                     </div>
                 </div>
 
-                <!-- Right: Custom Built 3D Robot Container -->
-                <div class="hero-3d-wrapper reveal">
-                    <!-- This div will host the interactive 3D scene from script.js -->
-                    <div id="hero-3d-canvas"></div>
+                <!-- 3D WRAPPER: EXACT ID MATCHES SCRIPT.JS -->
+                <div class="hero-3d-wrapper reveal" id="hero-3d-canvas">
+                    <!-- Three.js will inject the <canvas> tag right here -->
                 </div>
 
             </div>
@@ -229,11 +233,10 @@
             </div>
         </section>
 
-        <!-- About / Vision Section -->
+        <!-- About Section -->
         <section class="about-section" id="about">
             <div class="container">
                 <div class="about-grid">
-                    <!-- Text Details -->
                     <div class="about-text glass-card reveal">
                         <h2 class="section-title">Why <span class="gradient-text">OG Desk?</span></h2>
                         <p>In a saturated market, standing out requires more than just good looks. It demands a flawless backend, aggressive marketing, and absolute legal compliance. We are not just service providers; we are your growth engineers.</p>
@@ -246,14 +249,12 @@
                         <a href="services.html" class="glass-btn btn-colorful">See Our Process</a>
                     </div>
                     
-                    <!-- High-end Animated Glass Concept -->
                     <div class="reveal">
                         <div class="premium-feature-card">
                             <i class="fa-solid fa-chart-pie" style="font-size: 5rem; color: var(--neon-blue); margin-bottom: 20px;"></i>
                             <h3 style="font-size: 2rem; margin-bottom: 10px;">Data-Driven Scaling</h3>
                             <p style="color: var(--text-secondary); max-width: 300px; margin: 0 auto 20px;">We rely on hardcore metrics and marketplace algorithms, not guesswork.</p>
                             
-                            <!-- Floating Data Tags -->
                             <div class="floating-glass-card tag-1" style="top: 15%; left: -10%; border-color: var(--neon-pink);">+340% ROAS</div>
                             <div class="floating-glass-card tag-2" style="bottom: 15%; right: -10%; border-color: var(--neon-blue);">Rank #1 Secured</div>
                         </div>
@@ -262,7 +263,7 @@
             </div>
         </section>
 
-        <!-- Core Services Preview (Bento Grid) -->
+        <!-- Services -->
         <section class="services-preview" id="services">
             <div class="container">
                 <div class="section-header text-center reveal">
@@ -271,7 +272,6 @@
                 </div>
 
                 <div class="bento-glass-grid">
-                    <!-- Service 1 -->
                     <div class="bento-box glass-card reveal col-span-2 group image-bg-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80');">
                         <div class="bento-content">
                             <div class="icon-glass"><i class="fa-solid fa-rocket" style="color: #00f0ff; font-size: 24px;"></i></div>
@@ -281,7 +281,6 @@
                         </div>
                     </div>
 
-                    <!-- Service 2 -->
                     <div class="bento-box glass-card reveal group">
                         <div class="bento-content">
                             <div class="icon-glass"><i class="fa-solid fa-pen-nib" style="color: #ff0054; font-size: 24px;"></i></div>
@@ -291,7 +290,6 @@
                         <div class="hover-glow"></div>
                     </div>
 
-                    <!-- Service 3 -->
                     <div class="bento-box glass-card reveal group">
                         <div class="bento-content">
                             <div class="icon-glass"><i class="fa-solid fa-scale-balanced" style="color: #9d4edd; font-size: 24px;"></i></div>
@@ -301,7 +299,6 @@
                         <div class="hover-glow"></div>
                     </div>
 
-                    <!-- Service 4 -->
                     <div class="bento-box glass-card reveal col-span-2 group image-bg-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80');">
                         <div class="bento-content flex-row">
                             <div>
@@ -340,7 +337,7 @@
             </div>
         </section>
 
-        <!-- Call to Action -->
+        <!-- CTA -->
         <section class="cta-section">
             <div class="container">
                 <div class="cta-glass-banner glass-card reveal">
@@ -352,7 +349,7 @@
         </section>
     </main>
 
-    <!-- Advanced Commercial Footer -->
+    <!-- Footer -->
     <footer class="glass-footer">
         <div class="container">
             <div class="footer-grid">
