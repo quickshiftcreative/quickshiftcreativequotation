@@ -18,8 +18,116 @@
     <!-- Linking to our Liquid Glass Stylesheet -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- Three.js Library for 3D Background Effects -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <!-- Spline 3D Viewer Script (For Interactive 3D Character) -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.15/build/spline-viewer.js"></script>
+
+    <style>
+        /* =========================================================
+           HOME PAGE SPECIFIC REDESIGN & MOBILE FIXES
+           ========================================================= */
+        
+        /* Premium Hero Grid Layout */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            min-height: 90vh;
+            padding-top: 150px;
+            padding-bottom: 50px;
+        }
+
+        /* 3D Spline Container Styling */
+        .hero-spline-wrapper {
+            width: 100%;
+            height: 600px;
+            position: relative;
+            border-radius: 30px;
+            /* A subtle glowing aura behind the 3D character */
+            background: radial-gradient(circle at center, rgba(0, 240, 255, 0.15) 0%, transparent 60%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: float3D 6s infinite ease-in-out;
+        }
+
+        spline-viewer {
+            width: 100%;
+            height: 100%;
+            cursor: grab;
+        }
+
+        spline-viewer:active {
+            cursor: grabbing;
+        }
+
+        @keyframes float3D {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Premium Glass Card for About Section (Replacing the boring image) */
+        .premium-feature-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 40px rgba(255,255,255,0.02), 0 20px 50px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100%;
+            min-height: 450px;
+        }
+
+        .premium-feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--neon-blue), transparent 30%);
+            animation: rotateGlow 10s linear infinite;
+            opacity: 0.15;
+        }
+
+        @keyframes rotateGlow {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile Optimization for Homepage Grid */
+        @media (max-width: 992px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding-top: 120px;
+            }
+            .hero-spline-wrapper {
+                height: 400px;
+                order: -1; /* Puts the 3D character on top on mobile */
+            }
+            .hero-cta-group, .trust-metrics {
+                justify-content: center;
+            }
+            .hero-glass-card {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-spline-wrapper {
+                height: 350px;
+            }
+            .hero-title {
+                font-size: 2.8rem !important;
+            }
+            .premium-feature-card {
+                min-height: 300px;
+            }
+        }
+    </style>
 </head>
 <body class="liquid-theme">
 
@@ -51,9 +159,7 @@
                 </ul>
             </nav>
             <div class="nav-actions">
-                <!-- Colorful Button -->
                 <a href="contact.html" class="glass-btn btn-colorful">Book Consultation</a>
-                <!-- Hamburger Menu for Mobile -->
                 <button class="hamburger-menu" aria-label="Toggle Navigation">
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -74,36 +180,47 @@
     </header>
 
     <main>
-        <!-- Hero Section -->
-        <section class="hero-section" id="home">
-            <div id="hero-3d-canvas" class="canvas-container"></div>
-            
-            <div class="hero-content-wrapper">
-                <div class="hero-glass-card glass-card reveal">
-                    <div class="badge glass-badge">Welcome to the future of brands</div>
-                    <h1 class="hero-title">Elevate Your Brand With <br><span class="gradient-text-animated">Liquid Precision.</span></h1>
-                    <p class="hero-subtitle">We are OG Desk. A premium 360° digital agency engineering explosive growth through cutting-edge design, performance marketing, and seamless e-commerce management.</p>
-                    <div class="hero-cta-group">
-                        <!-- Colorful Animated Button -->
-                        <a href="contact.html" class="glass-btn btn-neon-pink pulse-effect">Start Your Project</a>
-                        <a href="services.html" class="glass-btn secondary-btn">Explore Expertise</a>
+        <!-- ULTRA PREMIUM HERO SECTION WITH 3D CHARACTER -->
+        <section class="container" id="home" style="padding-top: 0; padding-bottom: 0;">
+            <div class="hero-grid">
+                
+                <!-- Left: Text & Call to Actions -->
+                <div class="hero-content-wrapper reveal">
+                    <div class="badge glass-badge" style="border-color: var(--neon-blue);">The Future of Digital Growth</div>
+                    <h1 class="hero-title" style="font-size: 4.8rem; line-height: 1.1; margin-bottom: 25px; letter-spacing: -1.5px;">
+                        Scale Your Brand With <br><span class="colorful-text">Absolute Precision.</span>
+                    </h1>
+                    <p class="hero-subtitle" style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 40px; max-width: 600px;">
+                        We are OG Desk. Your 360° growth partner. We engineer explosive success through striking graphic design, ruthless performance marketing, and seamless e-commerce operations.
+                    </p>
+                    <div class="hero-cta-group" style="display: flex; gap: 20px; margin-bottom: 50px; flex-wrap: wrap;">
+                        <a href="contact.html" class="glass-btn btn-neon-blue pulse-effect" style="font-size: 1.1rem; padding: 15px 35px;">Start Your Project</a>
+                        <a href="services.html" class="glass-btn secondary-btn" style="font-size: 1.1rem; padding: 15px 35px;">Explore Expertise</a>
                     </div>
                     
-                    <div class="trust-metrics">
+                    <!-- Trust Metrics -->
+                    <div class="trust-metrics" style="display: flex; gap: 40px; border-top: 1px solid var(--glass-border); padding-top: 30px; flex-wrap: wrap;">
                         <div class="metric">
-                            <h3>50+</h3>
-                            <p>Brands Scaled</p>
+                            <h3 style="font-size: 2.2rem; color: var(--neon-pink);">50+</h3>
+                            <p style="font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Brands Scaled</p>
                         </div>
                         <div class="metric">
-                            <h3>10M+</h3>
-                            <p>Ad Spend</p>
+                            <h3 style="font-size: 2.2rem; color: var(--neon-blue);">10M+</h3>
+                            <p style="font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Ad Spend</p>
                         </div>
                         <div class="metric">
-                            <h3>100%</h3>
-                            <p>Compliance</p>
+                            <h3 style="font-size: 2.2rem; color: var(--neon-purple);">100%</h3>
+                            <p style="font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Compliance</p>
                         </div>
                     </div>
                 </div>
+
+                <!-- Right: Interactive 3D Character (Spline Viewer) -->
+                <div class="hero-spline-wrapper reveal">
+                    <!-- Interactive 3D Robot Character (You can rotate this with your mouse) -->
+                    <spline-viewer url="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode"></spline-viewer>
+                </div>
+
             </div>
         </section>
 
@@ -117,13 +234,14 @@
             </div>
         </section>
 
-        <!-- About / Vision Section with Image -->
+        <!-- About / Vision Section -->
         <section class="about-section" id="about">
             <div class="container">
                 <div class="about-grid">
+                    <!-- Text Details -->
                     <div class="about-text glass-card reveal">
                         <h2 class="section-title">Why <span class="gradient-text">OG Desk?</span></h2>
-                        <p>In a saturated market, standing out requires more than just good looks. It demands a flawless backend, aggressive marketing, and absolute legal compliance.</p>
+                        <p>In a saturated market, standing out requires more than just good looks. It demands a flawless backend, aggressive marketing, and absolute legal compliance. We are not just service providers; we are your growth engineers.</p>
                         <ul class="glass-list">
                             <li><i class="fa-solid fa-chart-line colorful-icon"></i> Transparent & Data-Driven ROI</li>
                             <li><i class="fa-solid fa-store colorful-icon"></i> Complete A-Z Marketplace Management</li>
@@ -132,22 +250,29 @@
                         <br>
                         <a href="services.html" class="glass-btn btn-colorful">See Our Process</a>
                     </div>
-                    <!-- Premium Image replacing the blank sphere -->
-                    <div class="about-image-wrapper reveal">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Data and Analytics" class="premium-image glass-card">
-                        <div class="floating-glass-card tag-1">ROAS +340%</div>
-                        <div class="floating-glass-card tag-2">Trademark Secured</div>
+                    
+                    <!-- Replaced flat image with a high-end Animated Glass Concept -->
+                    <div class="reveal">
+                        <div class="premium-feature-card">
+                            <i class="fa-solid fa-chart-pie" style="font-size: 5rem; color: var(--neon-blue); margin-bottom: 20px;"></i>
+                            <h3 style="font-size: 2rem; margin-bottom: 10px;">Data-Driven Scaling</h3>
+                            <p style="color: var(--text-secondary); max-width: 300px; margin: 0 auto 20px;">We rely on hardcore metrics and marketplace algorithms, not guesswork.</p>
+                            
+                            <!-- Floating Data Tags -->
+                            <div class="floating-glass-card tag-1" style="top: 15%; left: -10%; border-color: var(--neon-pink);">+340% ROAS</div>
+                            <div class="floating-glass-card tag-2" style="bottom: 15%; right: -10%; border-color: var(--neon-blue);">Rank #1 Secured</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Core Services Preview (Bento Grid with Images) -->
+        <!-- Core Services Preview (Bento Grid) -->
         <section class="services-preview" id="services">
             <div class="container">
                 <div class="section-header text-center reveal">
                     <h2 class="section-title">Our <span class="gradient-text">360° Arsenal</span></h2>
-                    <p class="section-desc">Everything your business needs to dominate the digital landscape, unified under one glass roof.</p>
+                    <p class="section-desc">Everything your business needs to dominate the digital landscape, unified under one liquid glass roof.</p>
                 </div>
 
                 <div class="bento-glass-grid">
@@ -155,8 +280,8 @@
                     <div class="bento-box glass-card reveal col-span-2 group image-bg-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80');">
                         <div class="bento-content">
                             <div class="icon-glass"><i class="fa-solid fa-rocket" style="color: #00f0ff; font-size: 24px;"></i></div>
-                            <h3>Performance Marketing</h3>
-                            <p>Ruthless data-driven ad campaigns on Meta, Google, and TikTok. We scale your D2C brand by focusing strictly on conversions.</p>
+                            <h3 style="font-size: 2.2rem;">Performance Marketing</h3>
+                            <p style="font-size: 1.1rem;">Ruthless data-driven ad campaigns on Meta, Google, and TikTok. We scale your D2C brand by focusing strictly on conversions.</p>
                             <a href="services.html" class="glass-link">Discover More ➔</a>
                         </div>
                     </div>
@@ -165,7 +290,7 @@
                     <div class="bento-box glass-card reveal group">
                         <div class="bento-content">
                             <div class="icon-glass"><i class="fa-solid fa-pen-nib" style="color: #ff0054; font-size: 24px;"></i></div>
-                            <h3>Design & Branding</h3>
+                            <h3 style="font-size: 1.8rem;">Design & Branding</h3>
                             <p>Logos, premium packaging, UI/UX, and high-retention video editing.</p>
                         </div>
                         <div class="hover-glow"></div>
@@ -175,8 +300,8 @@
                     <div class="bento-box glass-card reveal group">
                         <div class="bento-content">
                             <div class="icon-glass"><i class="fa-solid fa-scale-balanced" style="color: #9d4edd; font-size: 24px;"></i></div>
-                            <h3>Legal Licensing</h3>
-                            <p>FSSAI, GST, Trademark & ISO. We handle the paperwork.</p>
+                            <h3 style="font-size: 1.8rem;">Legal Licensing</h3>
+                            <p>FSSAI, GST, Trademark & ISO. We handle all the paperwork seamlessly.</p>
                         </div>
                         <div class="hover-glow"></div>
                     </div>
@@ -185,11 +310,11 @@
                     <div class="bento-box glass-card reveal col-span-2 group image-bg-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80');">
                         <div class="bento-content flex-row">
                             <div>
-                                <h3>E-Commerce & Quick Commerce</h3>
-                                <p>End-to-end cataloging, optimization, and ad management on Amazon, Flipkart, Blinkit, and Zepto.</p>
+                                <h3 style="font-size: 2.2rem;">E-Commerce Operations</h3>
+                                <p style="font-size: 1.1rem; max-width: 400px;">End-to-end cataloging, optimization, and ad management on Amazon, Flipkart, Blinkit, and Zepto.</p>
                             </div>
                             <!-- Colorful Button inside card -->
-                            <a href="services.html" class="glass-btn btn-neon-blue">View All Services</a>
+                            <a href="services.html" class="glass-btn btn-neon-blue pulse-effect">View All Services</a>
                         </div>
                     </div>
                 </div>
@@ -227,7 +352,7 @@
                 <div class="cta-glass-banner glass-card reveal">
                     <h2>Ready to dominate your industry?</h2>
                     <p>Stop dealing with multiple freelancers. Get a dedicated growth team today.</p>
-                    <a href="contact.html" class="glass-btn btn-colorful pulse-effect" style="padding: 15px 40px; font-size: 1.1rem;">Schedule a Free Strategy Call</a>
+                    <a href="contact.html" class="glass-btn btn-neon-pink pulse-effect" style="padding: 15px 40px; font-size: 1.1rem;">Schedule a Free Strategy Call</a>
                 </div>
             </div>
         </section>
@@ -241,7 +366,6 @@
                     <a href="index.html" class="brand-logo">OG <span class="gradient-text">Desk.</span></a>
                     <p>Building, managing, and scaling global brands with liquid precision and data-driven execution.</p>
                     <div class="social-links">
-                        <!-- REAL SOCIAL MEDIA LOGOS USING FONTAWESOME -->
                         <a href="#" class="glass-icon instagram-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
                         <a href="#" class="glass-icon linkedin-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
                         <a href="#" class="glass-icon twitter-icon" aria-label="Twitter (X)"><i class="fa-brands fa-x-twitter"></i></a>
@@ -283,6 +407,7 @@
         </div>
     </footer>
 
+    <!-- Using the same script.js file we already created -->
     <script src="script.js" defer></script>
 </body>
 </html>
