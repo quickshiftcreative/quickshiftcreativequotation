@@ -18,18 +18,18 @@
     <!-- Linking to our Liquid Glass Stylesheet -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- Spline 3D Viewer Script (For Interactive 3D Character) -->
-    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.15/build/spline-viewer.js"></script>
+    <!-- Three.js Libraries for the Interactive 3D Robot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
     <style>
         /* =========================================================
-           HOME PAGE SPECIFIC REDESIGN & MOBILE FIXES
+           HOME PAGE 3D GRID & MOBILE FIXES
            ========================================================= */
         
-        /* Premium Hero Grid Layout */
         .hero-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1.1fr 0.9fr;
             gap: 40px;
             align-items: center;
             min-height: 90vh;
@@ -37,36 +37,34 @@
             padding-bottom: 50px;
         }
 
-        /* 3D Spline Container Styling */
-        .hero-spline-wrapper {
+        /* The Box where our 3D Robot will live */
+        .hero-3d-wrapper {
             width: 100%;
             height: 600px;
             position: relative;
             border-radius: 30px;
-            /* A subtle glowing aura behind the 3D character */
-            background: radial-gradient(circle at center, rgba(0, 240, 255, 0.15) 0%, transparent 60%);
+            background: radial-gradient(circle at center, rgba(0, 240, 255, 0.1) 0%, transparent 65%);
             display: flex;
             justify-content: center;
             align-items: center;
-            animation: float3D 6s infinite ease-in-out;
+            overflow: hidden;
         }
 
-        spline-viewer {
+        #hero-3d-canvas {
             width: 100%;
             height: 100%;
-            cursor: grab;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            cursor: grab; /* Shows user they can grab and rotate */
         }
 
-        spline-viewer:active {
+        #hero-3d-canvas:active {
             cursor: grabbing;
         }
 
-        @keyframes float3D {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        /* Premium Glass Card for About Section (Replacing the boring image) */
+        /* Premium Glass Card for About Section */
         .premium-feature-card {
             background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -104,20 +102,17 @@
                 text-align: center;
                 padding-top: 120px;
             }
-            .hero-spline-wrapper {
-                height: 400px;
+            .hero-3d-wrapper {
+                height: 450px;
                 order: -1; /* Puts the 3D character on top on mobile */
             }
             .hero-cta-group, .trust-metrics {
                 justify-content: center;
             }
-            .hero-glass-card {
-                padding: 30px 20px;
-            }
         }
 
         @media (max-width: 768px) {
-            .hero-spline-wrapper {
+            .hero-3d-wrapper {
                 height: 350px;
             }
             .hero-title {
@@ -215,10 +210,10 @@
                     </div>
                 </div>
 
-                <!-- Right: Interactive 3D Character (Spline Viewer) -->
-                <div class="hero-spline-wrapper reveal">
-                    <!-- Interactive 3D Robot Character (You can rotate this with your mouse) -->
-                    <spline-viewer url="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode"></spline-viewer>
+                <!-- Right: Custom Built 3D Robot Container -->
+                <div class="hero-3d-wrapper reveal">
+                    <!-- This div will host the interactive 3D scene from script.js -->
+                    <div id="hero-3d-canvas"></div>
                 </div>
 
             </div>
@@ -251,7 +246,7 @@
                         <a href="services.html" class="glass-btn btn-colorful">See Our Process</a>
                     </div>
                     
-                    <!-- Replaced flat image with a high-end Animated Glass Concept -->
+                    <!-- High-end Animated Glass Concept -->
                     <div class="reveal">
                         <div class="premium-feature-card">
                             <i class="fa-solid fa-chart-pie" style="font-size: 5rem; color: var(--neon-blue); margin-bottom: 20px;"></i>
@@ -276,7 +271,7 @@
                 </div>
 
                 <div class="bento-glass-grid">
-                    <!-- Service 1 with Image background -->
+                    <!-- Service 1 -->
                     <div class="bento-box glass-card reveal col-span-2 group image-bg-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80');">
                         <div class="bento-content">
                             <div class="icon-glass"><i class="fa-solid fa-rocket" style="color: #00f0ff; font-size: 24px;"></i></div>
@@ -306,14 +301,13 @@
                         <div class="hover-glow"></div>
                     </div>
 
-                    <!-- Service 4 with image -->
+                    <!-- Service 4 -->
                     <div class="bento-box glass-card reveal col-span-2 group image-bg-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80');">
                         <div class="bento-content flex-row">
                             <div>
                                 <h3 style="font-size: 2.2rem;">E-Commerce Operations</h3>
                                 <p style="font-size: 1.1rem; max-width: 400px;">End-to-end cataloging, optimization, and ad management on Amazon, Flipkart, Blinkit, and Zepto.</p>
                             </div>
-                            <!-- Colorful Button inside card -->
                             <a href="services.html" class="glass-btn btn-neon-blue pulse-effect">View All Services</a>
                         </div>
                     </div>
@@ -358,7 +352,7 @@
         </section>
     </main>
 
-    <!-- Advanced Commercial Footer with Real Logos -->
+    <!-- Advanced Commercial Footer -->
     <footer class="glass-footer">
         <div class="container">
             <div class="footer-grid">
@@ -396,7 +390,6 @@
                     <p>Get exclusive D2C growth hacks every week.</p>
                     <form class="newsletter-form">
                         <input type="email" placeholder="Enter your email" required class="glass-input">
-                        <!-- Colorful Subscribe Button -->
                         <button type="submit" class="glass-btn btn-colorful">Subscribe</button>
                     </form>
                 </div>
@@ -407,7 +400,7 @@
         </div>
     </footer>
 
-    <!-- Using the same script.js file we already created -->
+    <!-- Interactive JavaScript -->
     <script src="script.js" defer></script>
 </body>
 </html>
