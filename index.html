@@ -7,25 +7,21 @@
     <title>OG Desk | Premium 360° Brand Growth & Digital Agency</title>
     <meta name="description" content="OG Desk is a top-tier digital agency specializing in Graphic Design, Performance Marketing, E-commerce Management, Licensing, and Web Development.">
     
-    <!-- Preconnect for Fonts -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome for Real Social Media Logos -->
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-    <!-- Linking to our Liquid Glass Stylesheet -->
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- ONLY NEED BASE THREE.JS -->
+    <!-- 100% STABLE THREE.JS CORE -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <style>
-        /* =========================================================
-           HOME PAGE 3D GRID & MOBILE FIXES
-           ========================================================= */
-        
         .hero-grid {
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
@@ -36,7 +32,6 @@
             padding-bottom: 50px;
         }
 
-        /* THE WRAPPER: Keeps the height and styling */
         .hero-3d-wrapper {
             width: 100%;
             height: 600px;
@@ -47,17 +42,16 @@
             overflow: hidden;
         }
 
-        /* THE CANVAS: Where the 3D character actually renders */
         #hero-3d-canvas {
             width: 100%;
             height: 100%;
+            display: block;
             position: absolute;
             top: 0;
             left: 0;
             z-index: 10;
         }
 
-        /* Premium Glass Card for About Section */
         .premium-feature-card {
             background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -89,54 +83,32 @@
         }
 
         @media (max-width: 992px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
-                padding-top: 120px;
-            }
-            .hero-3d-wrapper {
-                height: 450px;
-                order: -1; 
-            }
-            .hero-cta-group, .trust-metrics {
-                justify-content: center;
-            }
+            .hero-grid { grid-template-columns: 1fr; text-align: center; padding-top: 120px; }
+            .hero-3d-wrapper { height: 450px; order: -1; }
+            .hero-cta-group, .trust-metrics { justify-content: center; }
         }
 
         @media (max-width: 768px) {
-            .hero-3d-wrapper {
-                height: 350px;
-            }
-            .hero-title {
-                font-size: 2.8rem !important;
-            }
-            .premium-feature-card {
-                min-height: 300px;
-            }
+            .hero-3d-wrapper { height: 350px; }
+            .hero-title { font-size: 2.8rem !important; }
+            .premium-feature-card { min-height: 300px; }
         }
     </style>
 </head>
 <body class="liquid-theme">
 
-    <!-- Preloader Screen -->
     <div id="preloader" class="glass-preloader">
         <div class="loader-content">
             <h1 class="loader-logo">OG <span>Desk</span></h1>
-            <div class="progress-bar-container">
-                <div class="progress-bar"></div>
-            </div>
-            <p>Initializing System...</p>
+            <div class="progress-bar-container"><div class="progress-bar"></div></div>
+            <p>Initializing 3D Character...</p>
         </div>
     </div>
 
-    <!-- Custom Cursor -->
     <div class="cursor-dot"></div>
     <div class="cursor-ring"></div>
-
-    <!-- Scroll Progress Indicator -->
     <div class="scroll-progress" id="scroll-progress"></div>
 
-    <!-- Liquid Background Blobs -->
     <div class="liquid-background">
         <div class="blob blob-primary"></div>
         <div class="blob blob-secondary"></div>
@@ -144,7 +116,6 @@
         <div class="noise-overlay"></div> 
     </div>
 
-    <!-- Glassmorphism Navigation Bar -->
     <header class="glass-header">
         <div class="nav-container">
             <a href="index.html" class="brand-logo">OG <span class="gradient-text">Desk.</span></a>
@@ -159,9 +130,7 @@
             <div class="nav-actions">
                 <a href="contact.html" class="glass-btn btn-colorful">Book Consultation</a>
                 <button class="hamburger-menu" aria-label="Toggle Navigation">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
+                    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
                 </button>
             </div>
         </div>
@@ -177,7 +146,6 @@
     </header>
 
     <main>
-        <!-- HERO SECTION WITH CUSTOM 3D SCRIPT -->
         <section class="container" id="home" style="padding-top: 0; padding-bottom: 0;">
             <div class="hero-grid">
                 
@@ -195,30 +163,21 @@
                     </div>
                     
                     <div class="trust-metrics" style="display: flex; gap: 40px; border-top: 1px solid var(--glass-border); padding-top: 30px; flex-wrap: wrap;">
-                        <div class="metric">
-                            <h3 style="font-size: 2.2rem; color: var(--neon-pink);">50+</h3>
-                            <p style="font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Brands Scaled</p>
-                        </div>
-                        <div class="metric">
-                            <h3 style="font-size: 2.2rem; color: var(--neon-blue);">10M+</h3>
-                            <p style="font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Ad Spend</p>
-                        </div>
-                        <div class="metric">
-                            <h3 style="font-size: 2.2rem; color: var(--neon-purple);">100%</h3>
-                            <p style="font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Compliance</p>
-                        </div>
+                        <div class="metric"><h3 style="font-size: 2.2rem; color: var(--neon-pink);">50+</h3><p style="font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase;">Brands Scaled</p></div>
+                        <div class="metric"><h3 style="font-size: 2.2rem; color: var(--neon-blue);">10M+</h3><p style="font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase;">Ad Spend</p></div>
+                        <div class="metric"><h3 style="font-size: 2.2rem; color: var(--neon-purple);">100%</h3><p style="font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase;">Compliance</p></div>
                     </div>
                 </div>
 
-                <!-- FIXED 3D WRAPPER & CANVAS (Separated to fix height issue) -->
-                <div class="hero-3d-wrapper reveal">
-                    <div id="hero-3d-canvas"></div>
+                <!-- 3D WRAPPER -->
+                <div class="hero-3d-wrapper reveal" id="hero-3d-canvas">
+                    <!-- Javascript will inject 3D Character here -->
                 </div>
 
             </div>
         </section>
 
-        <!-- Infinite Trust Marquee -->
+        <!-- Trusted Marquee -->
         <section class="trusted-marquee glass-panel">
             <div class="marquee-track">
                 <div class="marquee-items">
@@ -234,7 +193,7 @@
                 <div class="about-grid">
                     <div class="about-text glass-card reveal">
                         <h2 class="section-title">Why <span class="gradient-text">OG Desk?</span></h2>
-                        <p>In a saturated market, standing out requires more than just good looks. It demands a flawless backend, aggressive marketing, and absolute legal compliance. We are not just service providers; we are your growth engineers.</p>
+                        <p>In a saturated market, standing out requires more than just good looks. It demands a flawless backend, aggressive marketing, and absolute legal compliance.</p>
                         <ul class="glass-list">
                             <li><i class="fa-solid fa-chart-line colorful-icon"></i> Transparent & Data-Driven ROI</li>
                             <li><i class="fa-solid fa-store colorful-icon"></i> Complete A-Z Marketplace Management</li>
@@ -307,31 +266,6 @@
             </div>
         </section>
 
-        <!-- Testimonials -->
-        <section class="testimonials-section" id="testimonials">
-            <div class="container">
-                <h2 class="section-title text-center reveal">What Our <span class="gradient-text">Partners Say</span></h2>
-                <div class="testimonial-grid">
-                    <div class="testimonial-card glass-card reveal">
-                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <p class="quote">"OG Desk transformed our Amazon presence. Within 3 months, our daily orders jumped by 400%. The team is incredibly professional."</p>
-                        <div class="client-info">
-                            <h4>Rahul Verma</h4>
-                            <span>Founder, D2C Apparel Brand</span>
-                        </div>
-                    </div>
-                    <div class="testimonial-card glass-card reveal" style="transition-delay: 0.2s;">
-                        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <p class="quote">"From getting our FSSAI and Trademark to launching our Shopify store, they handled literally everything. A true 360 agency."</p>
-                        <div class="client-info">
-                            <h4>Sneha Kapoor</h4>
-                            <span>Director, FMCG Startup</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- CTA -->
         <section class="cta-section">
             <div class="container">
@@ -379,20 +313,17 @@
 
                 <div class="footer-newsletter glass-card">
                     <h4>Join Our Newsletter</h4>
-                    <p>Get exclusive D2C growth hacks every week.</p>
                     <form class="newsletter-form">
                         <input type="email" placeholder="Enter your email" required class="glass-input">
                         <button type="submit" class="glass-btn btn-colorful">Subscribe</button>
                     </form>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 OG Desk Agency. All Rights Reserved. Crafted in India.</p>
-            </div>
+            <div class="footer-bottom"><p>&copy; 2026 OG Desk Agency. Crafted in India.</p></div>
         </div>
     </footer>
 
-    <!-- ADDED ?v=3 TO FORCE BROWSER TO LOAD NEW SCRIPT -->
-    <script src="script.js?v=3" defer></script>
+    <!-- Cache Buster Script Link -->
+    <script src="script.js?v=final_fix" defer></script>
 </body>
 </html>
