@@ -1,5 +1,5 @@
 /* ==========================================================================
-   OG DESK - COMMERCIAL INTERACTIONS & CRASH-PROOF 3D LOGIC
+   OG DESK - COMMERCIAL INTERACTIONS & MINIMAL 3D CHARACTER LOGIC
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -128,112 +128,108 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // --- 8. Three.js: FOOL-PROOF CUSTOM 3D ROBOT CORE ---
+    // --- 8. Three.js: MINIMAL INTERACTIVE CHARACTER (STRICT MOUSE TRACKING) ---
     const canvasContainer = document.getElementById('hero-3d-canvas');
     
     if (canvasContainer && typeof THREE !== 'undefined') {
         
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(45, canvasContainer.clientWidth / canvasContainer.clientHeight, 0.1, 1000);
-        camera.position.z = 40; 
+        camera.position.z = 35; 
 
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
-        // Optimize for mobile screens
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
         canvasContainer.appendChild(renderer.domElement);
 
-        // Create the Main 3D Group
-        const coreGroup = new THREE.Group();
-        scene.add(coreGroup);
+        // --- Create a Minimal Abstract Character (Glass Bot) ---
+        const botGroup = new THREE.Group();
+        scene.add(botGroup);
 
-        // Inner Glowing Core
-        const innerGeo = new THREE.IcosahedronGeometry(6, 1);
-        const innerMat = new THREE.MeshPhysicalMaterial({
-            color: 0xff0054, // Neon Pink
-            metalness: 0.5, roughness: 0.2, transmission: 0.5, transparent: true
+        // Head (Glassy Capsule)
+        const headGeo = new THREE.CapsuleGeometry(5, 4, 4, 16);
+        const glassMat = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            metalness: 0.1,
+            roughness: 0.1,
+            transmission: 0.9, // Very glassy
+            thickness: 0.5,
+            transparent: true,
+            opacity: 1
         });
-        const innerCore = new THREE.Mesh(innerGeo, innerMat);
-        coreGroup.add(innerCore);
+        const head = new THREE.Mesh(headGeo, glassMat);
+        botGroup.add(head);
 
-        // Outer Wireframe Shell
-        const outerGeo = new THREE.IcosahedronGeometry(9, 2);
-        const outerMat = new THREE.MeshBasicMaterial({
-            color: 0x00f0ff, // Neon Blue
-            wireframe: true, transparent: true, opacity: 0.5
-        });
-        const outerShell = new THREE.Mesh(outerGeo, outerMat);
-        coreGroup.add(outerShell);
+        // Eyes Group (These will look at the mouse)
+        const eyesGroup = new THREE.Group();
+        eyesGroup.position.set(0, 1, 4.8); 
+        botGroup.add(eyesGroup);
 
-        // Orbiting Rings
-        const ring1Geo = new THREE.TorusGeometry(14, 0.2, 16, 100);
-        const ringMat = new THREE.MeshBasicMaterial({ color: 0x9d4edd }); // Neon Purple
-        const ring1 = new THREE.Mesh(ring1Geo, ringMat);
-        ring1.rotation.x = Math.PI / 2;
-        coreGroup.add(ring1);
+        // Glowing Left Eye
+        const eyeGeo = new THREE.SphereGeometry(0.8, 16, 16);
+        const neonBlueMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+        const leftEye = new THREE.Mesh(eyeGeo, neonBlueMat);
+        leftEye.position.set(-1.8, 0, 0);
+        eyesGroup.add(leftEye);
 
-        const ring2Geo = new THREE.TorusGeometry(12, 0.1, 16, 100);
-        const ringMat2 = new THREE.MeshBasicMaterial({ color: 0xffffff });
-        const ring2 = new THREE.Mesh(ring2Geo, ringMat2);
-        ring2.rotation.y = Math.PI / 3;
-        coreGroup.add(ring2);
+        // Glowing Right Eye
+        const neonPinkMat = new THREE.MeshBasicMaterial({ color: 0xff0054 });
+        const rightEye = new THREE.Mesh(eyeGeo, neonPinkMat);
+        rightEye.position.set(1.8, 0, 0);
+        eyesGroup.add(rightEye);
+
+        // Floating Headphones/Antennas
+        const antennaGeo = new THREE.TorusGeometry(6, 0.3, 16, 100);
+        const darkMat = new THREE.MeshStandardMaterial({ color: 0x222222, metalness: 0.8, roughness: 0.2 });
+        const headphones = new THREE.Mesh(antennaGeo, darkMat);
+        headphones.rotation.x = Math.PI / 2;
+        botGroup.add(headphones);
+
+        // Floating Base Ring
+        const ringGeo = new THREE.TorusGeometry(8, 0.1, 16, 100);
+        const neonPurpleMat = new THREE.MeshBasicMaterial({ color: 0x9d4edd });
+        const baseRing = new THREE.Mesh(ringGeo, neonPurpleMat);
+        baseRing.position.y = -6;
+        baseRing.rotation.x = Math.PI / 2;
+        botGroup.add(baseRing);
 
         // Lighting
-        const light1 = new THREE.PointLight(0x00f0ff, 3, 100); 
+        const light1 = new THREE.PointLight(0x00f0ff, 2, 100); 
         light1.position.set(20, 20, 20);
         scene.add(light1);
 
-        const light2 = new THREE.PointLight(0xff0054, 3, 100); 
+        const light2 = new THREE.PointLight(0xff0054, 2, 100); 
         light2.position.set(-20, -20, 20);
         scene.add(light2);
         
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
         scene.add(ambientLight);
 
-        // === CUSTOM DRAG & ROTATE LOGIC (REPLACES EXTERNAL PLUGINS) ===
-        let isDragging = false;
-        let previousMousePosition = { x: 0, y: 0 };
+        // === STRICT MOUSE TRACKING LOGIC (NO AUTO ROTATE) ===
+        let targetRotationX = 0;
+        let targetRotationY = 0;
 
-        // Mouse Events for Desktop
-        canvasContainer.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            previousMousePosition = { x: e.clientX, y: e.clientY };
-            canvasContainer.style.cursor = 'grabbing';
-        });
-        
+        // Calculate center of the screen
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        // Track Mouse
         window.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                let deltaMove = { x: e.clientX - previousMousePosition.x, y: e.clientY - previousMousePosition.y };
-                // Rotate the entire group based on mouse movement
-                coreGroup.rotation.y += deltaMove.x * 0.01;
-                coreGroup.rotation.x += deltaMove.y * 0.01;
-            }
-            previousMousePosition = { x: e.clientX, y: e.clientY };
-        });
-        
-        window.addEventListener('mouseup', () => {
-            isDragging = false;
-            canvasContainer.style.cursor = 'grab';
+            const mouseX = (e.clientX - windowHalfX) / windowHalfX;
+            const mouseY = (e.clientY - windowHalfY) / windowHalfY;
+
+            // Map mouse position to rotation angles
+            targetRotationY = mouseX * (Math.PI / 2); // Looks left/right
+            targetRotationX = mouseY * (Math.PI / 4); // Looks up/down
         });
 
-        // Touch Events for Mobile Devices
-        canvasContainer.addEventListener('touchstart', (e) => {
-            isDragging = true;
-            previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        }, { passive: true });
-
+        // Track Touch (For Mobile)
         window.addEventListener('touchmove', (e) => {
-            if (isDragging) {
-                let deltaMove = { x: e.touches[0].clientX - previousMousePosition.x, y: e.touches[0].clientY - previousMousePosition.y };
-                coreGroup.rotation.y += deltaMove.x * 0.01;
-                coreGroup.rotation.x += deltaMove.y * 0.01;
-            }
-            previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            const touchX = (e.touches[0].clientX - windowHalfX) / windowHalfX;
+            const touchY = (e.touches[0].clientY - windowHalfY) / windowHalfY;
+            targetRotationY = touchX * (Math.PI / 2);
+            targetRotationX = touchY * (Math.PI / 4);
         }, { passive: true });
-
-        window.addEventListener('touchend', () => {
-            isDragging = false;
-        });
 
         // Animation Loop
         const clock = new THREE.Clock();
@@ -242,25 +238,15 @@ document.addEventListener("DOMContentLoaded", () => {
             requestAnimationFrame(animate);
             const elapsedTime = clock.getElapsedTime();
 
-            // Auto-rotate slowly if user is NOT dragging
-            if (!isDragging) {
-                coreGroup.rotation.y += 0.005;
-                coreGroup.rotation.x += 0.002;
-            }
+            // Smoothly interpolate current rotation towards target rotation
+            botGroup.rotation.y += (targetRotationY - botGroup.rotation.y) * 0.05;
+            botGroup.rotation.x += (targetRotationX - botGroup.rotation.x) * 0.05;
 
-            // Internal parts animation
-            innerCore.rotation.x += 0.01;
-            innerCore.rotation.y += 0.01;
-            outerShell.rotation.x -= 0.005;
-            outerShell.rotation.y -= 0.005;
-            ring1.rotation.x += 0.02;
-            ring1.rotation.y += 0.01;
-            ring2.rotation.y -= 0.03;
-            ring2.rotation.z += 0.01;
-
-            // Breathing effect
-            const scale = 1 + Math.sin(elapsedTime * 2) * 0.05;
-            coreGroup.scale.set(scale, scale, scale);
+            // Subtle floating effect (bobbing up and down)
+            botGroup.position.y = Math.sin(elapsedTime * 2) * 1.5;
+            
+            // Spin the base ring slowly for visual flair
+            baseRing.rotation.z += 0.01;
 
             renderer.render(scene, camera);
         }
